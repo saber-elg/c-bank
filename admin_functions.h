@@ -9,7 +9,7 @@
 =======
 >>>>>>> 31a747e (reinitialise the repo)
 #include <string.h>
-//#include <openssl/sha.h>
+#include <openssl/sha.h>
 
 /*Prototype of functions*/
 
