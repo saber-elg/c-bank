@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "set_const.h"
+<<<<<<< HEAD
 //#include "admin_functions.h"
 //#include "client_functions.h"
 #include "struct.h"
@@ -21,6 +22,15 @@ int create_client_account(){
 int main()
 {
     create_client_account();
+=======
+#include "admin_functions.h"
+#include "client_functions.h"
+#include "struct.h"
+
+int main()
+{
+
+>>>>>>> 31a747e (reinitialise the repo)
     return 0;
 }
 

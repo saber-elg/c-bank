@@ -4,7 +4,10 @@
 #include"struct.h"
 #include <time.h>
 #include <stdio.h>
+<<<<<<< HEAD
 #include<stdlib.h>
+=======
+>>>>>>> 31a747e (reinitialise the repo)
 #include <string.h>
 //#include <openssl/sha.h>
 

@@ -1,6 +1,10 @@
 #ifndef PROJECT_H
 #define PROJECT_H
+<<<<<<< HEAD
 #include<time.h>
+=======
+
+>>>>>>> 31a747e (reinitialise the repo)
 
 Date catch_Date(){
     time_t t = time(NULL);
