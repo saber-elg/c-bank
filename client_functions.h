@@ -5,18 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-<<<<<<< HEAD
 #include "struct.h"
 #include "set_const.h"
 
 /*prototyping functions*/
 
-=======
-#include <time.h>
-#include "struct.h"
-#include "set_const.h"
-
->>>>>>> 31a747e (reinitialise the repo)
 int create_client_account();
 void display_client_profile();
 char* create_num_password();

@@ -23,18 +23,10 @@ typedef struct auth{
 
 typedef struct client{
     int account_number;
-<<<<<<< HEAD
     char CNE[MAX_CNE_LENGHT];
     double balance;
     char first_name[FIRST_NAME_LENGHT];
     char last_name[LAST_NAME_LENGHT];  
-=======
-    double balance;
-    char first_name[FIRST_NAME_LENGHT];
-    char last_name[LAST_NAME_LENGHT];
-    char email[MAX_EMAIL_LENGHT];
-    char password[MAX_PASSWORD_LENGTH];
->>>>>>> 31a747e (reinitialise the repo)
     Auth auth;
     Security_Qa security;
 }Client;
