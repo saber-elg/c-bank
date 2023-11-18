@@ -1,10 +1,12 @@
 #ifndef ADMIN_FUNCTIONS_H
 #define ADMIN_FUNCTIONS_H
 
-#include"struct.h"
+#include "struct.h"
+#include "set_const.h"
+#include "client_functions.h"
 #include <time.h>
 #include <stdio.h>
-#include<stdlib.h>
+#include <stdlib.h>
 #include <string.h>
 //#include <openssl/sha.h>
 
@@ -23,7 +25,7 @@ int login_admin(){
     printf("Email      :   ");
     fgets(temp->email,MAX_EMAIL_LENGHT,stdin);
     printf("Password   :   ");
-    temp->password = get_password();
+    strcpy(temp->password,get_password());
     if(!strcmp(temp->email,"admin") && !strcmp(temp->password,"admin"))
         return 1;
     return 0;

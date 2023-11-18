@@ -29,7 +29,7 @@ int create_client_account(){
     printf("Email        :   ");
     fgets(client->auth.email,MAX_EMAIL_LENGHT,stdin);
     printf("Password     :   ");
-    client->auth.password = create_num_password();
+    strcpy(client->auth.password,create_num_password());
     system("clear");
     return 1;
 }
@@ -50,7 +50,7 @@ char* create_num_password() {
         exit(1);    
     }//Assuring the memory allocation for the password                                       
 
-    printf("Enter password: ");
+    printf("Enter password  : ");
     char ch;
     int i = 0;
     while ((ch = getchar()) != '\n' && i < MAX_PASSWORD_LENGTH) 

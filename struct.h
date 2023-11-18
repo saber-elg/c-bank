@@ -18,7 +18,7 @@ typedef struct security_qa{
 
 typedef struct auth{
     char email[MAX_EMAIL_LENGHT];
-    char password[MAX_PASSWORD_LENGTH];//char password[MAX_PASSWORD_LENGTH]; will be affected to hash
+    char password[MAX_PASSWORD_LENGTH];//char password[MAX_PASSWORD_LENGTH], will be affected to hash
 }Auth;
 
 typedef struct client{
