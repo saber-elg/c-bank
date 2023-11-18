@@ -1,3 +1,5 @@
+/* Tis header contains all the constant used in this project */
+
 #ifndef SET_CONST_H  // Include guard to prevent multiple inclusion
 #define SET_CONST_H
 

@@ -29,19 +29,5 @@ int login_admin(){
 }
 
 
-/*void hash_password(const char *password, char *hash) {
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-    SHA256_Update(&sha256, password, strlen(password));
-    SHA256_Final((unsigned char*)hash, &sha256);
-}*/
-
-// Function to generate a random salt
-void generateSalt(unsigned char *salt) {
-    FILE *urandom = fopen("/dev/urandom", "rb");
-    fread(salt, 1, SALT_SIZE, urandom);
-    fclose(urandom);
-}
-
 
 #endif

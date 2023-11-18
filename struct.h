@@ -1,7 +1,9 @@
+/* This header contains all the structures used in this project */
+
 #ifndef STRUCT_H
 #define STRUCT_H
+
 #include "set_const.h"
-/* This file contains all the structures used in this project */
 
 typedef struct time{
     int hour,minute,second;
