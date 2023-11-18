@@ -23,8 +23,8 @@ typedef struct auth{
 
 typedef struct client{
     int account_number;
-    char CNE[MAX_CNE_LENGHT];
     double balance;
+    char CIN[MAX_CNE_LENGHT];
     char first_name[FIRST_NAME_LENGHT];
     char last_name[LAST_NAME_LENGHT];  
     Auth auth;

@@ -11,17 +11,35 @@
 /*prototyping functions*/
 
 int create_client_account();
-void display_client_profile();
+void display_client_profile(Client client);
 char* create_num_password();
 char* get_password();
 Auth *authentification(char* email, char* password);
 int login_admin();
 
+/*Declaring the functions*/
 
+int create_client_account(){
+    Client *client = (Client*)malloc(sizeof(Client));
+    printf("******************     Create an account      ******************\n");
+    printf("First Name   :   ");
+    fgets(client->first_name,FIRST_NAME_LENGHT,stdin);
+    printf("Last Name    :   ");
+    fgets(client->last_name,LAST_NAME_LENGHT,stdin);
+    printf("Email        :   ");
+    fgets(client->auth.email,MAX_EMAIL_LENGHT,stdin);
+    printf("Password     :   ");
+    client->auth.password = create_num_password();
+    system("clear");
+    return 1;
+}
 
 void display_client_profile(Client client){
-
-
+    printf("******************     Profile      *******************\n\n");
+    printf("Account Number   :  %d\n",client.account_number);
+    printf("Account Holder   :  %s %s\n",client.last_name,client.last_name);
+    printf("Account CIN      :  %s\n",client.CIN);
+    printf("Account E-mail   :  %s\n",client.auth.email);
 }
 
 char* create_num_password() {
@@ -58,7 +76,6 @@ char* create_num_password() {
     return password;
 }
 
-
 char* get_password(){
     printf("Enter password: ");
     char* password = (char*)malloc((MAX_PASSWORD_LENGTH + 1) * sizeof(char)); // Allocate memory for the password
@@ -73,43 +90,9 @@ char* get_password(){
             i--;
         }
     }
+    return password;
 }
 
-
-void admin_or_client(){
-    printf("(1)    I am a client\n\n");
-    printf("(2)    I am an administrator\n");
-    printf("\n");
-    char ch= getchar();
-    system("cls");
-    switch(ch){
-    case '1':
-        /*client_services(); not yet added*/
-        break;
-    case '2':{
-            system("cls");
-            int i=0;
-            do{
-                if(!login_admin()){
-                    printf("\n\n\n\n\n");
-                    printf("\t\t\t\t\tInvalid E-mail or password ! retry\n");
-                    getchar();
-                    system("cls");
-                    i++;
-                }else{
-                    system("cls");
-                    /*admin_main_page();not yet added*/
-                }
-            }while(i<3);
-            system("cls");
-            admin_or_client();
-        }
-        break;
-    default:
-        exit(1);
-        break;
-    }
-}
 
 
 
