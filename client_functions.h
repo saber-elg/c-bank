@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include "struct.h"
 #include "set_const.h"
+//#include <openssl/sha.h>
 
 /*prototyping functions*/
 
@@ -14,8 +15,8 @@ int create_client_account();
 void display_client_profile(Client client);
 char* create_num_password();
 char* get_password();
-Auth *authentification(char* email, char* password);
-int login_admin();
+Auth* authentification(char* email, char* password);
+int login_client();
 
 /*Declaring the functions*/
 
@@ -93,6 +94,9 @@ char* get_password(){
     return password;
 }
 
+int login_client(){
+    
+}
 
 
 

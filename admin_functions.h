@@ -8,13 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <openssl/sha.h>
 
 /*Prototype of functions*/
 
 int login_admin();
-
-//void hash_password(const char *password, char *hash);
 
 /*Creation of functions*/
 
@@ -32,7 +29,6 @@ int login_admin(){
 }
 
 
-
 /*void hash_password(const char *password, char *hash) {
     SHA256_CTX sha256;
     SHA256_Init(&sha256);
@@ -40,6 +36,12 @@ int login_admin(){
     SHA256_Final((unsigned char*)hash, &sha256);
 }*/
 
+// Function to generate a random salt
+void generateSalt(unsigned char *salt) {
+    FILE *urandom = fopen("/dev/urandom", "rb");
+    fread(salt, 1, SALT_SIZE, urandom);
+    fclose(urandom);
+}
 
 
 #endif

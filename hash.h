@@ -1,9 +1,16 @@
+#ifndef HASH_H
+#define HASH_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <openssl/sha.h>
+#include "set_const.h"
 
-#define SALT_SIZE 16
+// Prototyping the functions
+void generateSalt(unsigned char *salt);
+void hash_password(const char *password, const unsigned char *salt, unsigned char *hash);
+int verify_password(const char *password, const unsigned char *salt, const unsigned char *storedHash);
 
 // Function to generate a random salt
 void generateSalt(unsigned char *salt) {
@@ -13,7 +20,7 @@ void generateSalt(unsigned char *salt) {
 }
 
 // Function to hash the password with the salt
-void hashPassword(const char *password, const unsigned char *salt, unsigned char *hash) {
+void hash_password(const char *password, const unsigned char *salt, unsigned char *hash) {
     SHA256_CTX sha256;
     SHA256_Init(&sha256);
     SHA256_Update(&sha256, salt, SALT_SIZE);
@@ -22,12 +29,13 @@ void hashPassword(const char *password, const unsigned char *salt, unsigned char
 }
 
 // Function to verify a user's password during authentication
-int verifyPassword(const char *password, const unsigned char *salt, const unsigned char *storedHash) {
+int verify_password(const char *password, const unsigned char *salt, const unsigned char *storedHash) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     hashPassword(password, salt, hash);
     return memcmp(hash, storedHash, SHA256_DIGEST_LENGTH) == 0;
 }
 
+/* demo
 int main() {
     const char *userPassword = "user_password";
     unsigned char salt[SALT_SIZE];
@@ -50,4 +58,6 @@ int main() {
     }
 
     return 0;
-}
+}*/
+
+#endif
