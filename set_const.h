@@ -13,5 +13,7 @@
 #define LAST_NAME_LENGHT 20
 #define MAX_CNE_LENGHT 10
 #define SALT_SIZE 16
+#define MAX_TRANSACTIONS 2000
+#define MAX_CLIENTS 2000
 
 #endif  

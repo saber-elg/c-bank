@@ -36,20 +36,41 @@ void admin_or_client(){
     char ch= getchar();
     system("cls");
     switch(ch){
-    case '1':
-        /*client_services(); not yet added*/
+    case '1':{
+            system("cls");
+            int i=0;
+            do{
+                // Cas où l'authentification du client échoue
+                if(login_client()== 0){
+                    printf("\n\n\n\n\n");
+                    printf("\t\t\t\t\tInvalid E-mail or password ! retry\n");
+                    getchar();// Attente de la saisie d'un caractère par l'utilisateur
+                    system("cls");
+                    i++;
+                }else{
+                    // Si l'authentification réussit, appeler la fonction client_main_page()
+                    system("cls");
+                    client_main_page(clients, transactions, num_clients, num_transactions); 
+                    //smth still to add
+                }
+            }while(i<3);
+            system("cls");
+            admin_or_client();        
+        }   
         break;
     case '2':{
             system("cls");
             int i=0;
             do{
+                // Cas où l'authentification de l'administrateur échoue
                 if(!login_admin()){
                     printf("\n\n\n\n\n");
                     printf("\t\t\t\t\tInvalid E-mail or password ! retry\n");
-                    getchar();
+                    getchar();// Attente de la saisie d'un caractère par l'utilisateur
                     system("cls");
                     i++;
                 }else{
+                    // Si l'authentification réussit, appeler la fonction admin_main_page()
                     system("cls");
                     /*admin_main_page();not yet added*/
                 }
