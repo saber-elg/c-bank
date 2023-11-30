@@ -354,8 +354,8 @@ void Client_main_page(Client *client){
     printf("1. Deposit\n");
     printf("2. Withdrawal\n");
     printf("3. Transfer\n");
-    printf("4. balance inquiry");
-    printf("5. Quit page\n");
+    printf("4. Check balance");
+    printf("5. Log out\n");
     printf("Enter the number of the desired operation: ");
     scanf("%d", &choice);
     
@@ -369,14 +369,14 @@ void Client_main_page(Client *client){
 
         case 2:// Withdrawal
             system("cls"); 
-            make_withdrawal(client);
+            make_withdrawal(*client);
             getchar();
             system("cls");
             break;
 
         case 3:// Transfer
             system("cls"); 
-            make_transfer(client);
+            make_transfer(*client);
             getchar();
             system("cls");
             break;
