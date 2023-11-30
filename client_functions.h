@@ -8,6 +8,7 @@
 #include "struct.h"
 #include "set_const.h"
 #include <time.h>
+
 //#include <openssl/sha.h>
 
 /*prototyping functions*/
@@ -16,42 +17,56 @@ int create_client_account();
 void display_client_profile(Client client);
 char* create_num_password();
 char* get_password();
-Auth* authentification(char* email, char* password);
-int login_client(const char *path);
-void save_clients_to_file(const Client *clients, size_t num_clients);
-void save_transactions_to_file(const char *path, const Transaction *transactions, size_t num_transactions);
-int read_transactions_from_file(Transaction *transactions);
-void make_deposit(Client *clients, size_t num_clients, Transaction *transactions, size_t *num_transactions);
-void Client_main_page(Client *clients, Transaction *transactions);
-void make_withdrawal(Client *clients, Transaction *transactions);
-int find_client_by_account_number(const Client *clients, size_t num_clients, int account_number);
-void make_transfer(Client *clients, size_t num_clients, Transaction *transactions);
+int cin_is_in_file(Client client);
+int email_is_in_file(Client client);
+int client_file_length();
+int login_client();
+void save_client_to_file(Client *client);
+int update_client_in_file(Client client,Client update);
+Client get_client_by_account(int account_number);
+int client_position_by_account(int account_number);
+int make_transfer(Client sender);
+void make_deposit(Client *client);
+void make_withdrawal(Client client);
+void Client_main_page(Client *clients);
 
 
 /*Declaring the functions*/
 
-int create_client_account() {
-    size_t num_clients = 0;
-    Client clients[MAX_CLIENTS];
-
+int create_client_account(){
     printf("******************     Create an account      ******************\n");
+    Client client;
     printf("First Name    :   ");
-    fgets(clients[num_clients].first_name, FIRST_NAME_LENGTH, stdin);
+    fgets(client.first_name, FIRST_NAME_LENGHT, stdin);
     printf("Last Name     :   ");
-    fgets(clients[num_clients].last_name, LAST_NAME_LENGTH, stdin);
+    fgets(client.last_name, LAST_NAME_LENGHT, stdin);
     printf("CIN           :   ");
-    fgets(clients[num_clients].CIN, MAX_CNE_LENGTH, stdin); 
+    fgets(client.CIN, MAX_CNE_LENGHT, stdin); 
+    client.balance=0;
+    client.account_number=client_file_length()+1;
+
+    //verifiying whether another account already exist with this CIN or not.
+    if (cin_is_in_file(client))
+    {
+        puts("This cin already exists.");
+        return 0;
+    }
+
     printf("Email         :   ");
-    fgets(clients[num_clients].auth.email, MAX_EMAIL_LENGTH, stdin);
+    fgets(client.auth.email, MAX_EMAIL_LENGHT, stdin);
+
+    //verifiying whether another account already exist with this email or not.
+    if (email_is_in_file(client))
+    {
+        puts("This email already exists.");
+        return 0;
+    }
+
     printf("Password      :   ");
-    strcpy(clients[num_clients]->auth.password,create_num_password());//this is yours verifie it
+    strcpy(client.auth.password,create_num_password());
+
     system("cls");
-
-    num_clients++;
-
-    // Enregistrer le tableau de clients dans le fichier
-    save_clients_to_file(clients, num_clients);
-    
+    save_client_to_file(&client);
     return 1;
 }
 
@@ -114,6 +129,49 @@ char* get_password(){
     return password;
 }
 
+int cin_is_in_file(Client client){
+    FILE *client_file = fopen(PATH_CLIENT_BIN_FILE, "rb");
+    if (client_file == NULL) {
+        printf("Error opening clients file");
+        return (0);
+    }
+    int client_count=client_file_length();
+    Client* user=NULL;
+    for(int i=0;i<client_count;i++)
+    { 
+        fread(user,sizeof(Client),1,client_file);
+        if(!strcmp(user->CIN,client.CIN))
+        return 1;
+    }
+    return 0;
+}
+
+int email_is_in_file(Client client){
+    FILE *client_file = fopen(PATH_CLIENT_BIN_FILE, "rb");
+    if (client_file == NULL) {
+        printf("Error opening clients file");
+        return (0);
+    }
+    int client_count=client_file_length();
+    Client* user=NULL;
+    for(int i=0;i<client_count;i++)
+    { 
+        fread(user,sizeof(Client),1,client_file);
+        if(!strcmp(user->auth.email,client.auth.email))
+        return 1;
+    }
+    return 0;
+}
+
+int client_file_length(){   //function that retrun the lenght of clients file
+    FILE *client_file = fopen("Client.bin","rb");
+    fseek(client_file,0,SEEK_END);
+    long lenght_in_bytes = ftell(client_file);
+    fclose(client_file);
+    int lenght = (int)lenght_in_bytes/sizeof(Client);
+    return lenght;
+}
+
 int login_client() {
     printf("Client\n\n");
     printf("***************** Authentification *****************");
@@ -125,118 +183,178 @@ int login_client() {
     printf("Password   :   ");
     strcpy(temp->password, get_password());
 
-    // Ouverture du fichier
-    const char *path = "C:/Users/admin/Desktop/Vs code_project C/clients.b";
-    FILE *file = fopen(path, "rb");
-    if (file == NULL) {
-        printf("Error opening file");
-        exit(EXIT_FAILURE);
+    // Ouverture du fichier binaire des clients
+    FILE *client_file = fopen(PATH_CLIENT_BIN_FILE, "rb");
+    if (client_file == NULL) {
+        perror("Error opening clients file while login");
+        return 0;
     }
 
-    size_t num_clients;
-    // Lecture du nombre de clients dans le fichier
-    fread(&num_clients, sizeof(size_t), 1, file);
-
-    // Allocation dynamique du tableau de clients
-    Client *clients = (Client *)malloc(sizeof(Client) * num_clients);
-
-    // Lecture du tableau de clients
-    fread(clients, sizeof(Client), num_clients, file);
-
-    for (size_t i = 0; i < num_clients; i++) {
-        // Comparaison avec les informations saisies par l'utilisateur
-        if (strcmp(temp->email, clients[i].auth.email) == 0 && strcmp(temp->password, clients[i].auth.password) == 0) {
-            return i;
-            break;
-        }
+    Client *client=NULL;
+    int client_count=client_file_length();
+    fread(client, sizeof(Client), 1,client_file);
+    for (int i = 0; i < client_count; i++) {
+        fread(client, sizeof(int), 1,client_file);
+        if (strcmp(temp->email, client->auth.email) == 0 && strcmp(temp->password, client->auth.password) == 0) 
+        return i;
     }
+    fclose(client_file);
 
     // Libération de la mémoire allouée dynamiquement
-    free(clients);
+    free(client);
     free(temp);
-    fclose(file);
-
     return 0;
 }
 
-void save_clients_to_file(const Client *clients, int num_clients) {
-    const char *path = "C:/Users/admin/Desktop/Vs code_project C/clients.b";
-    FILE *file = fopen(path, "ab");
-    if (file == NULL) {
-        perror("Error opening file");
-        exit(EXIT_FAILURE);
+void save_client_to_file(Client *client){
+    FILE *client_file = fopen(PATH_CLIENT_BIN_FILE, "ab");
+    if (client_file == NULL) {
+        perror("Error opening file while saving the client");
+        return; //break the function
     }
-    fwrite(clients + (num_clients - 1), sizeof(Client), 1, file);
-    fclose(file);
+    fseek(client_file, client_file_length()*sizeof(Client), SEEK_SET);
+    fwrite(client,sizeof(Client),1,client_file);
+    fclose(client_file);
 }
-void save_transactions_to_file(const Transaction *transactions, int num_transactions) {
-    const char *path = "C:/Users/admin/Desktop/Vs code_project C/clients.b";
-    FILE *f = fopen(path, "ab");
-    if (f == NULL) {
-        perror("Error opening file");
-        exit(EXIT_FAILURE);
+
+int update_client_in_file(Client client,Client update){
+    FILE *client_file = fopen(PATH_CLIENT_BIN_FILE, "a+b");
+    if (client_file == NULL) {
+        perror("Error opening file while updating the client");
+        return (-1); //break the function
     }
-    /*transactions: C'est un pointeur vers le début du tableau des transactions.
-    + (num_transactions - 1): Cela déplace le pointeur de transactions vers la position de la dernière 
-    transaction dans le tableau. Puisque les indices dans un tableau commencent à 0,
-    la dernière transaction est à la position num_transactions - 1*/
-    fwrite(transactions + (num_transactions - 1), sizeof(Transaction), 1, f);
-    fclose(f);
-}
-int read_transactions_from_file(Transaction *transactions) {
-    const char *path = "C:/Users/admin/Desktop/Vs code_project C/transaction.b";
-    FILE *f = fopen(path, "rb");
-    if (file == NULL) {
-        printf("Error opening file");
-        exit(EXIT_FAILURE);
+    fseek(client_file,sizeof(Client)*client_position_by_account(client.account_number),SEEK_SET);
+    if(fwrite(&update,sizeof(Client),1,client_file)!=0)
+    {
+        fclose(client_file);
+        return 1;
     }
-    int num_transactions = fread(transactions, sizeof(Transaction), MAX_TRANSACTIONS, file);
-    //if fichier est empty num_transactions=0 a ajouter !!!!
-    fclose(f);
-    //returner le dernier element de transactions
-    return num_transactions;
+    return 0;
 }
-void make_deposit(Client *clients, size_t num_clients, Transaction *transactions, size_t *num_transactions) {
+
+Client get_client_by_account(int account_number){
+    Client user;
+    FILE *client_file = fopen(PATH_CLIENT_BIN_FILE, "rb");
+    if (client_file == NULL) {
+        perror("Error opening file while saving the client");
+    }
+    else{ 
+        // Read clients one by one until the end of the file
+        while (!feof(client_file)) 
+        {
+            fread(&user, sizeof(Client), 1, client_file);
+            // Check if the current client has the target account number
+            if (user.account_number == account_number) 
+            break; // Client found and break the loop
+        }
+        fclose(client_file);
+    }
+    return (user);
+}
+
+int client_position_by_account(int account_number) {
+    Client *user=(Client*)malloc(sizeof(Client));
+    FILE *client_file = fopen(PATH_CLIENT_BIN_FILE, "rb");
+    if (client_file == NULL) {
+        perror("Error opening file while saving the client");
+        return (-1); //break the function
+    }
+    // Read clients one by one until the end of the file
+    while (!feof(client_file)) 
+    {
+        fread(user, sizeof(Client), 1, client_file);
+        // Check if the current client has the target account number
+        if (user->account_number == account_number) {
+            int pos=(ftell(client_file)/sizeof(client))-1;
+            return pos;  // Client found and return its position
+        }
+    }
+    fclose(client_file);
+    return -1;  // Client with the target account number not found
+}
+
+int make_transfer(Client sender) {
+
+    Client *receiver=NULL,*update_sender=NULL,*update_receiver=NULL;
+    double transfer_amount;
+    printf("Enter the destination account number: ");
+    scanf("%d", &receiver->account_number);
+    printf("Enter the transfer amount: ");
+    scanf("%lf", &transfer_amount);
+
+    if (client_position_by_account(receiver->account_number)==-1)
+    {
+        puts("Account not not found");
+        return(0);
+    }
+    else
+    {
+        if (transfer_amount<=sender.balance)
+        {
+            *receiver=get_client_by_account(receiver->account_number);
+            *update_sender=sender;
+            update_sender->balance -= transfer_amount;
+            update_receiver->balance +=transfer_amount;
+            update_client_in_file(sender,*update_sender);
+            update_client_in_file(*receiver,*update_receiver);
+            return(1);
+        }
+        else
+        printf("Insufficient funds for the transfer.\n"); 
+        return(0);
+    }
+    
+}
+
+void make_deposit(Client *client) {
     double deposit_amount;
-    int i;
     // Saisie du montant du dépôt
     printf("Enter the deposit amount: ");
     scanf("%lf", &deposit_amount);
 
  
     //Erreur !! clients[i].balance est extrait de fichier & I have to modefie it also dans le fichier apres l'ajout de montant !!!!!!!!!!!!
-    clients[i].balance += deposit_amount;
-
-    // Récupération du dernier numéro de transaction
-    int last_transaction_number = read_transactions_from_file(transactions);
-
-    // Ajout d'une nouvelle transaction
-    transactions[*num_transactions].trans_number = last_transaction_number + 1;
-    transactions[*num_transactions].type = 1;  // Type 1 pour dépôt
-    transactions[*num_transactions].trans_amount = deposit_amount;
-    transactions[*num_transactions].trans_date = time(NULL);
-
-    // Enregistrement de la transaction dans le fichier
-    save_transactions_to_file(transactions, *num_transactions + 1);
+    client->balance+= deposit_amount;
 
     printf("Deposit of %.2f successfully completed.\n", deposit_amount);
-
-    // Affichage des informations mises à jour
-    printf("-----------Updated information-----------\n");
-    printf("Account balance       : %.2f\n", clients[i].balance);
-    printf("Transaction number    : %d\n", transactions[*num_transactions].trans_number);
-    printf("Transaction type      : %d\n", transactions[*num_transactions].type);
-    printf("Transaction amount    : %.2f\n", transactions[*num_transactions].trans_amount);
-    printf("Transaction date      : %s\n", ctime(&transactions[*num_transactions].trans_date));
 }
-void Client_main_page(Client *clients, Transaction *transactions){
+
+void make_withdrawal(Client client) {
+    double withdrawal_amount;
+    printf("Enter the withdrawal amount: ");
+    scanf("%lf", &withdrawal_amount);
+   
+    //Verifiying the balance for the withdraw
+    if (withdrawal_amount > client.balance) 
+    printf("Unsuccessful operation, your balance is  insufficient.\n");
+    else
+    {
+        FILE *client_file = fopen(PATH_CLIENT_BIN_FILE, "a+b");
+        if (client_file == NULL) {
+        perror("Error opening clients file while making a withdraw.");
+        return;
+        }
+
+        // Mise à jour du solde du client
+        fseek(client_file,client_position_by_account(client.account_number)*sizeof(Client),SEEK_SET);
+        client.balance -= withdrawal_amount;
+        // Handle error while writing
+        if (fwrite(&client, sizeof(Client), 1, client_file) != 1) {
+        perror("Error writing to file");
+    }
+        // Affichage des informations mises à jour
+        printf("Withdrawal of %.2f successfully completed.\n", withdrawal_amount);
+    }
+}
+
+void Client_main_page(Client *client){
     int choice;
-    printf("\n******* Welcome, %s %s! *******\n", clients->first_name, clients->last_name);
+    printf("\n******* Welcome, %s %s! *******\n", client->first_name, client->last_name);
     printf("Possible transactions:\n");
     printf("1. Deposit\n");
     printf("2. Withdrawal\n");
     printf("3. Transfer\n");
-    printf("4. balance inquiry")
+    printf("4. balance inquiry");
     printf("5. Quit page\n");
     printf("Enter the number of the desired operation: ");
     scanf("%d", &choice);
@@ -244,27 +362,27 @@ void Client_main_page(Client *clients, Transaction *transactions){
     switch (choice) {
         case 1:  //deposit
             system("cls");
-            make_deposit(clients,num_clients, transactions, num_transactions)
+            make_deposit(client);
             getchar();
             system("cls");
             break;
 
         case 2:// Withdrawal
             system("cls"); 
-            make_withdrawal(clients, transactions);
+            make_withdrawal(client);
             getchar();
             system("cls");
             break;
 
         case 3:// Transfer
             system("cls"); 
-            make_transfer(clients, num_clients, transactions);
+            make_transfer(client);
             getchar();
             system("cls");
             break;
         case 4://balance inquiry
             system("cls"); 
-            printf("Your account balance : %.2f\n", clients[i]->balance);
+            printf("Your account balance : %.2f\n", client->balance);
             getchar();
             system("cls");
             break;
@@ -280,104 +398,5 @@ void Client_main_page(Client *clients, Transaction *transactions){
             break;
     }
 }
-void make_withdrawal(Client *clients, Transaction *transactions) {
-    const char *path = "C:/Users/admin/Desktop/Vs code_project C/transaction.b";
-    double withdrawal_amount;
-    int i;
-    // Saisie du montant du retrait
-    printf("Enter the withdrawal amount: ");
-    scanf("%lf", &withdrawal_amount);
-   
-    // Vérification des fonds suffisants pour le retrait
-    if (withdrawal_amount > clients[i]->balance) {
-        printf("Insufficient funds for withdrawal.\n");
-        return;
-    }
-    //Erreur !!clients[i]->balance est extrait de fichier en mode lire et je dois modefier le apres le retrait !!!!!!!
-    // Mise à jour du solde du client
-    clients[i]->balance -= withdrawal_amount;
-
-    // Récupération du dernier numéro de transaction
-    int num_transactions = read_transactions_from_file(transactions);
-
-    // Mise à jour des informations de la nouvelle transaction
-    transactions[num_transactions].trans_number = num_transactions + 1;
-    transactions[num_transactions].type = 2;  // Type 2 pour le retrait
-    transactions[num_transactions].trans_amount = withdrawal_amount;
-    transactions[num_transactions].trans_date = time(NULL);
-
-    // Enregistrement de la transaction dans le fichier
-    save_transactions_to_file(transactions, num_transactions + 1);
-
-    // Affichage des informations mises à jour
-    printf("Withdrawal of %.2f successfully completed.\n", withdrawal_amount);
-    printf("Updated information:\n");
-    printf("Account balance: %.2f\n", clients[i]->balance);
-    printf("Transaction number: %d\n", transactions[num_transactions].trans_number);
-    printf("Transaction type: %d\n", transactions[num_transactions].type);
-    printf("Transaction amount: %.2f\n", transactions[num_transactions].trans_amount);
-    printf("Transaction date: %s", ctime(&transactions[num_transactions].trans_date));
-}
-int find_client_by_account_number(const Client *clients, size_t num_clients, int account_number) {
-    for (size_t i = 0; i < num_clients; ++i) {
-        if (clients[i].account_number == account_number) {
-            return i; // Retourne l'indice du client trouvé
-        }
-    }
-    return -1; // Retourne 0 si le client n'est pas trouvé
-}
-void make_transfer(Client *clients, size_t num_clients, Transaction *transactions) {
-    const char *path = "C:/Users/admin/Desktop/Vs code_project C/transaction.b";
-    double transfer_amount;
-    int i;
-    // Saisie du numéro de compte de destination
-    printf("Enter the destination account number: ");
-    scanf("%d", &destination_account);
-    
-    // Recherche du compte de destination dans le fichier
-    
-    int j = find_client_by_account_number(clients, num_clients, destination_account);
-    if (j == -1) {
-        printf("Source account not found.\n");
-        return;
-    }
-
-    Client *clients[j]; 
-    // Saisie du montant du transfert
-    printf("Enter the transfer amount: ");
-    scanf("%lf", &transfer_amount);
-
-    // Vérification de la suffisance des fonds
-    if (clients[i]->balance >= transfer_amount) {
-        // Effectuer le transfert
-        clients[i]->balance -= transfer_amount;
-        clients[j]->balance += transfer_amount;
-
-        // Récupération du dernier numéro de transaction
-        int num_transactions = read_transactions_from_file(transactions);
-
-        // Mise à jour des informations de la nouvelle transaction
-        transactions[num_transactions].trans_number = num_transactions + 1;
-        transactions[num_transactions].type = 3;  // Type 3 pour le transfert
-        transactions[num_transactions].trans_amount = transfer_amount;
-        transactions[num_transactions].trans_date = time(NULL);
-
-        // Enregistrement de la transaction dans le fichier
-        save_transactions_to_file(transactions, num_transactions + 1);
-
-        // Affichage des informations mises à jour
-        printf("Transfer of %.2f from account %d to account %d completed.\n", transfer_amount, source_account, destination_account);
-        printf("-------------Updated information------------ \n");
-        printf("Source account balance        : %.2f\n", clients[i]->balance);
-        printf("Destination account balance   : %.2f\n", clients[j]->balance);
-        printf("Transaction number            : %d\n", transactions[num_transactions].trans_number);
-        printf("Transaction type              : %d\n", transactions[num_transactions].type);
-        printf("Transaction amount            : %.2f\n", transactions[num_transactions].trans_amount);
-        printf("Transaction date              : %s", ctime(&transactions[num_transactions].trans_date));
-    } else {
-        printf("Insufficient funds for the transfer.\n");
-    }
-}
-
 
 #endif

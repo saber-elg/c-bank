@@ -34,13 +34,6 @@ typedef struct client{
 }Client;
 
 
-typedef struct transaction {
-    int trans_number;  // Numéro de transaction unique
-    int type;               // Type de transaction (1: dépôt, 2: retrait, 3: transfert)
-    double trans_amount;         // Montant de la transaction
-    time_t trans_date;         
-}Transaction;
-
 
 #endif
 

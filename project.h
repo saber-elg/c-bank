@@ -1,6 +1,8 @@
 #ifndef PROJECT_H
 #define PROJECT_H
 #include <time.h>
+#include<stdio.h>
+#include<stdlib.h>
 #include "struct.h"
 
 /*Prototyping the functions*/
