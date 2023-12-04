@@ -1,10 +1,10 @@
-#ifndef HASH_H
+/*#ifndef HASH_H
 #define HASH_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <openssl/sha.h>
+//#include <openssl/sha.h>
 #include "set_const.h"
 
 // Prototyping the functions
@@ -33,7 +33,7 @@ int verify_password(const char *password, const unsigned char *salt, const unsig
     unsigned char hash[SHA256_DIGEST_LENGTH];
     hashPassword(password, salt, hash);
     return memcmp(hash, storedHash, SHA256_DIGEST_LENGTH) == 0;
-}
+}*/
 
 /* demo
 int main() {

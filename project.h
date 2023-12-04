@@ -4,80 +4,77 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "struct.h"
+#include "set_const.h"
+#include "client_functions.h"
+#include "admin_functions.h"
+
 
 /*Prototyping the functions*/
-Date catch_Date();
-Time catch_Time();
+
 void admin_or_client();
 
 /*Declaring the functions*/
-Date catch_Date(){
-    time_t t = time(NULL);
-    struct tm time = *localtime(&t);
-    Date date;
-    date.day = time.tm_mday;
-    date.month = time.tm_mon+1;
-    date.year = time.tm_year+1900;
-    return date;
-}
-
-Time catch_Time(){
-    time_t t = time(NULL);
-    struct tm time = *localtime(&t);
-    Time cur_time;
-    cur_time.hour = time.tm_hour;
-    cur_time.minute = time.tm_min;
-    cur_time.second = time.tm_sec;
-    return cur_time;
-}
 
 void admin_or_client(){
-    printf("(1)    I am a client\n\n");
-    printf("(2)    I am an administrator\n");
-    printf("\n");
-    char ch= getchar();
-    system("cls");
-    switch(ch){
+    system("clear");
+    if (fopen(PATH_CLIENT_BIN_FILE, "rb") == NULL || fopen(PATH_STAGING_CLIENT_BIN_FILE, "rb") == NULL) 
+    {
+        files_initialisation();
+    }
+    printf("*********************c-bank*********************\n\n");
+    printf("\n\n(1)    I am a client\n\n");
+    printf("(2)    I am an administrator\n\n");
+    printf("Answer   :   ");
+    char choice;
+    while(((choice = getchar()) != '1') && (choice != '2'))
+    {
+        system("clear");
+        printf("\n\n(1)    I am a client\n\n");
+        printf("(2)    I am an administrator\n\n");
+        printf("Answer   :   ");
+    }
+    system("clear");
+    switch(choice){
     case '1':{
-            system("cls");
             int i=0;
             do{
                 // Cas où l'authentification du client échoue
-                if(login_client()== 0){
+                if(client_authentification() == NULL){
                     printf("\n\n\n\n\n");
-                    printf("\t\t\t\t\tInvalid E-mail or password ! retry\n");
+                    printf("\t\t\tInvalid E-mail or password ! retry\n");
                     getchar();// Attente de la saisie d'un caractère par l'utilisateur
-                    system("cls");
+                    system("clear");
                     i++;
-                }else{
+                }
+                else{
                     // Si l'authentification réussit, appeler la fonction client_main_page()
-                    system("cls");
-                    client_main_page(clients, transactions, num_clients, num_transactions); 
-                    //smth still to add
+                    system("clear");
+                    getchar();
+                    client_main_page(*client_authentification()); 
                 }
             }while(i<3);
-            system("cls");
+            system("clear");
             admin_or_client();        
         }   
         break;
     case '2':{
-            system("cls");
             int i=0;
             do{
                 // Cas où l'authentification de l'administrateur échoue
-                if(!login_admin()){
+                if(!admin_login()){
                     printf("\n\n\n\n\n");
-                    printf("\t\t\t\t\tInvalid E-mail or password ! retry\n");
+                    printf("\t\t\t\t\tInvalid Username or password ! retry\n");
                     getchar();// Attente de la saisie d'un caractère par l'utilisateur
-                    system("cls");
+                    system("clear");
                     i++;
                 }else{
                     // Si l'authentification réussit, appeler la fonction admin_main_page()
-                    system("cls");
-                    /*admin_main_page();not yet added*/
+                    system("clear");
+                    admin_main_page();
+                    i=3;
                 }
             }while(i<3);
-            system("cls");
+            system("clear");
             admin_or_client();
         }
         break;
@@ -86,5 +83,4 @@ void admin_or_client(){
         break;
     }
 }
-
 #endif

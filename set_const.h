@@ -2,8 +2,8 @@
 
 #ifndef SET_CONST_H  // Include guard to prevent multiple inclusion
 #define SET_CONST_H
-#define PATH_CLIENT_BIN_FILE "transactions.bin"
-#define PATH_TRANSACTION_BIN_FILE "clients.bin"
+#define PATH_CLIENT_BIN_FILE "/Users/mohamed-saber/Desktop/c-bank/clients.bin"
+#define PATH_STAGING_CLIENT_BIN_FILE "/Users/mohamed-saber/Desktop/c-bank/staging_clients.bin"
 #define MAX_PASSWORD_LENGTH 20
 #define MIN_PASSWORD_LENGTH 8
 #define HASH_LENGHT 20
@@ -12,7 +12,7 @@
 #define SEC_ANSWER_LENGHT 20
 #define FIRST_NAME_LENGHT 20
 #define LAST_NAME_LENGHT 20
-#define MAX_CNE_LENGHT 10
+#define MAX_CIN_LENGHT 10
 #define SALT_SIZE 16
 
 #endif  

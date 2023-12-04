@@ -19,21 +19,19 @@ typedef struct security_qa{
 }Security_Qa;
 
 typedef struct auth{
-    char email[MAX_EMAIL_LENGHT];
+    int  account_number;
     char password[MAX_PASSWORD_LENGTH];//char password[MAX_PASSWORD_LENGTH], will be affected to hash
 }Auth;
 
 typedef struct client{
     int account_number;
     double balance;
-    char CIN[MAX_CNE_LENGHT];
+    char CIN[MAX_CIN_LENGHT];
+    char email[MAX_EMAIL_LENGHT];
     char first_name[FIRST_NAME_LENGHT];
     char last_name[LAST_NAME_LENGHT];  
-    Auth auth;
-    Security_Qa security;
+    char password[MAX_PASSWORD_LENGTH];
 }Client;
-
-
 
 #endif
 
