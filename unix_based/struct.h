@@ -5,32 +5,22 @@
 
 #include "set_const.h"
 
-typedef struct time{
-    int hour,minute,second;
-}Time;
-
-typedef struct date{
-    int day,month,year;
-}Date;
-
 typedef struct security_qa{
     char question[SEC_QUESTION_LENGHT];
     char answer[SEC_ANSWER_LENGHT];
 }Security_Qa;
 
-typedef struct auth{
-    int  account_number;
-    char password[MAX_PASSWORD_LENGTH];//char password[MAX_PASSWORD_LENGTH], will be affected to hash
-}Auth;
-
 typedef struct client{
+    int account_status; // 0 if banned 1 if active
     int account_number;
-    double balance;
-    char CIN[MAX_CIN_LENGHT];
-    char email[MAX_EMAIL_LENGHT];
     char first_name[FIRST_NAME_LENGHT];
     char last_name[LAST_NAME_LENGHT];  
+    char CIN[MAX_CIN_LENGHT];
+    char email[MAX_EMAIL_LENGHT];
+    int city_id;
+    double balance;
     char password[MAX_PASSWORD_LENGTH];
+    Security_Qa security;
 }Client;
 
 #endif

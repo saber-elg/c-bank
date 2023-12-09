@@ -13,6 +13,9 @@
 #define FIRST_NAME_LENGHT 20
 #define LAST_NAME_LENGHT 20
 #define MAX_CIN_LENGHT 10
-#define SALT_SIZE 16
+//#define SALT_SIZE 16
+#define city1_id 11
+#define city2_id 12
+#define city3_id 13
 
 #endif  
