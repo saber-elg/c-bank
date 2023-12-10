@@ -17,5 +17,10 @@
 #define city1_id 11
 #define city2_id 12
 #define city3_id 13
-
+#define city4_id 27
+#define city5_id 34
+#define city6_id 19
+#define city7_id 10
+#define city8_id 56
+#define city9_id 47
 #endif  
