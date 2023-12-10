@@ -100,10 +100,17 @@ int get_city_id(){
     {
         system("clear");
         printf(" City\n\n");
+        printf(" Chose Your City\n\n");
         printf(" ----------------------------------------------------------\n");
-        printf("\t 1.  city1                                               \n");
-        printf("\t 2.  city2                                               \n");
-        printf("\t 3.  city3                                               \n");
+        printf("\t 1.  Los Angeles                                         \n");
+        printf("\t 2.  Chicago                                             \n");
+        printf("\t 3.  Houston                                             \n");
+        printf("\t 4.  Atlanta                                             \n");
+        printf("\t 5.  Philadelphia                                        \n");
+        printf("\t 6.  Houston                                             \n");
+        printf("\t 7.  Dallas                                              \n");
+        printf("\t 8.  Miami                                               \n");
+        printf("\t 9.  Phoenix                                             \n");
         printf(" ----------------------------------------------------------\n");
         char choice = unix_getch();
         switch (choice)
@@ -117,6 +124,24 @@ int get_city_id(){
             case '3':
                 return city3_id;
 
+            case '4':
+                 return city4_id;
+
+            case '5':
+                 return city5_id;
+
+            case '6':
+                 return city6_id;
+
+            case '7':
+                 return city7_id;
+
+            case '8':
+                 return city8_id;
+
+            case '9':
+                 return city9_id;
+
             default:
                 break;
         }
@@ -129,23 +154,23 @@ char* get_security_question()
     while (1)
     {
         system("clear");
-        printf(" Security Question\n\n");
+        printf(" Chose Your Security Question\n\n");
         printf(" ----------------------------------------------------------\n");
-        printf("\t 1. qest1.                                               \n");
-        printf("\t 2. qest2.                                               \n");
-        printf("\t 3. qest3.                                               \n");
+        printf("\t 1. What is the first name of your oldest cousin?       \n");
+        printf("\t 2. What is your favorite food?                         \n");
+        printf("\t 3. Where did you go on your favorite vacation?         \n");
         printf(" ----------------------------------------------------------\n");
         char choice = unix_getch();
         switch (choice)
         {
             case '1':
-                return("qest1");
+                return("What is the first name of your oldest cousin?");
 
             case '2':
-                return("qest2");
+                return("What is your favorite food?");
 
             case '3':
-                return("qest3");
+                return("Where did you go on your favorite vacation?");
 
             default:
                 break;

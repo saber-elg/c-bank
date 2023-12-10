@@ -12,7 +12,6 @@
 //#include <openssl/sha.h>
 
 /*prototyping functions*/
-
 int request_client_account_creation();
 Client* client_authentification();
 int forgot_password();
@@ -245,7 +244,6 @@ int make_transfer(Client *sender) {
     return(0);  
 }
 
-
 // Returns 1 if the deposit is successfull else it returns 0.
 int make_deposit(Client *client) {
     double deposit_amount;
@@ -363,6 +361,8 @@ void client_login_page(){
     while(1)
     {
         system("clear");
+        Client* user=(Client*)malloc(sizeof(Client));
+        user=client_authentification();
         char choice;
         printf("\n************ Client Space ************\n\n\n");
         printf("1. Log in\n");
@@ -371,28 +371,21 @@ void client_login_page(){
         printf("4. Forgot password\n");
         printf("5. Quit");
         choice=unix_getch();
-        int i=0;
         system("clear");
         switch (choice) 
         {
             case '1':  //log in
-                do{
-                    Client* user=(Client*)malloc(sizeof(Client));
-                    user=client_authentification();
                     system("clear");
                     if(user == NULL)
                     {   
                         printf("\n\n\n\n\n");
                         printf("\t\t\tInvalid Account_number or password ! Retry.\n");
                         unix_getch();
-                        i++;
                     }
                     else
                     {
                         client_main_page(user); 
-                        break;
                     }
-                }while(i<3);
                 break;        
 
             case '2':// Sign up
