@@ -16,6 +16,15 @@ void admin_or_client();
 /*Declaring the functions*/
 
 void admin_or_client(){
+    system("cls");
+    printf("_________          ___.                  __ \n");
+    printf("\\_   ___ \\         \\_ |__ _____    ____ |  | __\n");
+    printf("/    \\  \\/   ______ | __ \\__  \\  /    \\|  |/ /\n");
+    printf("\\     \\____ /_____/ | \\_\\ \\/ __ \\|   |  \\    <\n");
+    printf(" \\______  /         |___  (____  /___|  /__|_ \\\n");
+    printf("        \\/              \\/     \\/     \\/     \\/\n");
+    getch();
+    system("cls");
     while (1)
     {
         files_initialisation();
