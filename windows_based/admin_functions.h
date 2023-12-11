@@ -4,7 +4,6 @@
 #include "struct.h"
 #include "set_const.h"
 #include "client_functions.h"
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,12 +13,10 @@
 
 void accept_account_creation_requests();
 void free_request_file();
-Client* find_client_option();
+void find_client_option();
 int update_account(int account_number);
 int admin_login();
 void admin_main_page();
-
-//int check_account_creation_requests();
 
 /*Creation of functions*/
 
@@ -39,6 +36,7 @@ void accept_account_creation_requests(){
     // Process each client in the requests file
     if (staging_file_length()==0)
     {
+        printf("************** Account Creation Requests **************\n\n");
         yellow();
         printf("\n\n\n\t\tNo pending request.");
         color_reset();
@@ -49,13 +47,14 @@ void accept_account_creation_requests(){
         Client *client = (Client*)malloc(sizeof(Client));
         for (int i = 1; i <= staging_file_length(); i++) 
         {
+            printf("************** Account Creation Requests **************\n\n");
             fread(client, sizeof(Client), 1, staging_file);
             FILE* client_file = fopen(PATH_CLIENT_BIN_FILE, "ab");
             if (client_file == NULL) {
                 printf("Error opening accounts file");
                 getch();
                 system("cls");
-                printf("Shutting down.");
+                shut_down();
                 exit(EXIT_FAILURE);
             }
             // Check if the client is not already in the accounts file
@@ -199,7 +198,9 @@ int update_account(int account_number)
     }
     else
     { 
+        red();
         printf("******************     Update Account     ******************\n");
+        color_reset();
         Client* update=(Client*)malloc(sizeof(Client));
         printf("First Name       :    ");
         fgets_no_newline_return(update->first_name,FIRST_NAME_LENGHT);
@@ -243,65 +244,7 @@ int update_account(int account_number)
     }
     return 0;
 }
-// returns 1 is the client is updated else it returns 0
-int find_and_update_client(int account_number)
-{
-    Client* user = (Client*)malloc(sizeof(Client));
-    user = get_client_by_account(account_number);
-    system("cls");
-    if(user == NULL)
-    {
-        yellow();
-        printf("Client not find.");
-        color_reset();
-        getch();
-    }
-    else
-    { 
-        printf("******************     Update Account     ******************\n");
-        Client *update=(Client*)malloc(sizeof(Client));
-        printf("First Name       :    ");
-        fgets_no_newline_return(update->first_name,FIRST_NAME_LENGHT);
-        printf("Last Name        :    ");
-        fgets_no_newline_return(update->last_name,LAST_NAME_LENGHT);
-        printf("CIN              :    ");
-        fgets_no_newline_return(update->CIN, MAX_CIN_LENGHT);
-        printf("Email            :   ");
-        fgets_no_newline_return(update->email, MAX_EMAIL_LENGHT);
-        strcpy(update->password,create_num_password());
-        system("cls");
-        display_client_profile(update);
-        blue();
-        printf("\nAccount informations saved, are you sure you want to update this account! [y/n]  :  ");
-        color_reset();
-        char answer;
-        answer=getch();
-        while ((answer != 'y')&&(answer != 'n')&&(answer != 'Y')&&(answer != 'N'))
-        {
-            system("cls");
-            blue();
-            printf("Unexpected answer, are you sure you want to update this account! [y/n]  :  ");
-            color_reset();
-            answer=getch();
-            system("cls");
-        }
-        if ((answer == 'y')||(answer == 'Y'))
-        {   
-            yellow();
-            update_client_in_file(*user,*update) ? printf("The client is well updated."):printf("The client is not updated.");
-            color_reset();
-            getch();
-        }
-        else
-        {
-            yellow();
-            printf("The update is canceled.");
-            color_reset();
-            getch();
-        }
-    }
-    return 0;
-}
+
 
 // Returns 1 if the admin is well logged else it returns 0
 int admin_login(){
@@ -313,9 +256,12 @@ int admin_login(){
     printf("Username      :   ");
     scanf("%s",username);
     printf("\n\nPassword      :   ");
-    strcpy(password,get_password());
+    password = get_password();
     if((!strcmp(username,"admin")) && (!strcmp(password,"admin")))
     {
+        system("cls");
+        logging_in();
+        system("cls")
         return 1;
     }
     return 0;
@@ -329,11 +275,11 @@ void admin_main_page()
         system("cls");
         char choice;
         int account_number;
-        printf("\n************* Admin space ***************\n\n");
-        printf("1. Account requests.\n");
-        printf("2. Display a client.\n");
-        printf("3. Update a client.\n");
-        printf("4. Log out");
+        printf("\n***************** Admin space ****************\n\n");
+        printf("\t1. Account requests.\n");
+        printf("\t2. Display a client.\n");
+        printf("\t3. Update a client.\n");
+        printf("\t4. Log out");
         choice = getch();
         system("cls");
         switch (choice) 
@@ -358,7 +304,7 @@ void admin_main_page()
             case '4':// Quit page
                 system("cls");
                 printf("Thank you! Goodbye.\n");
-                getch();
+                Sleep(1500);
                 return;
 
             default:

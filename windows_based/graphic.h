@@ -6,6 +6,11 @@
 #include <unistd.h>
 #include <windows.h>
 
+void start();
+void loading();
+void processing();
+void shut_down();
+
 void red () {
   printf("\033[1;31m");
 }
@@ -42,45 +47,101 @@ void hide_cursor () {
     printf("\e[?25l");
 }
 
+void start (){
+  system("cls");
+    yellow();
+    printf("_________          ___.                  __ \n");
+    printf("\\_   ___ \\         \\_ |__ _____    ____ |  | __\n");
+    printf("/    \\  \\/   ______ | __ \\__  \\  /    \\|  |/ /\n");
+    printf("\\     \\____ /_____/ | \\_\\ \\/ __ \\|   |  \\    <\n");
+    printf(" \\______  /         |___  (____  /___|  /__|_ \\\n");
+    printf("        \\/              \\/     \\/     \\/     \\/\n\n");
+    color_reset();
+    Sleep(1500);
+    loading();
+}
 
-void loading() {
-    system("cls");  
-    hide_cursor();
-    printf("Loading ");
+void loading(){
+    loading();
     fflush(stdout);
-
     int count = 0;
     green();
-
-    for (int i = 0; i < 30; i++) {
-        fputc('=', stdout);
+    for (int i = 0 ; i < 40 ; i++)
+    {
+        fputc('=',stdout);
+        Sleep(750-70*count);
         fflush(stdout);
-
-        Sleep(750 - 70 * count);
-
-        if ((count + 1) * 70 <= 750) {
-            count += 1;
+        if ((count+2)*70 <=750)
+        {
+            count+=1;
         }
-    }
-
+    }  
     printf("\n");
     color_reset();
-    enable_cursor();
 }
+
 void processing (){
-    system("cls");
-    hide_cursor();
     printf("Processing ");
     fflush(stdout);
     for (int i = 0 ; i < 4 ; i++)
     {
-        sleep(1);
+        Sleep(500);
         fputc('.',stdout);
         fputc(' ',stdout);
         fflush(stdout);
     } 
     printf("\n");
-    enable_cursor();
+}
+
+void shut_down(){
+  printf("Shutting down  ");
+  fflush(stdout);
+  for (int i = 0 ; i < 4 ; i++)
+  {
+      Sleep(500);
+      fputc('.',stdout);
+      fputc(' ',stdout);
+      fflush(stdout);
+  } 
+  printf("\n");
+  system("clear");
+  Sleep(1000);
+  red();
+  printf("\t\t   Developed by :\n\n");
+  green();
+  printf("El Guelta Mohamed-Saber ");
+  color_reset();
+  printf(" &&  ");
+  green();
+  printf(" El  Hadifi  Soukaina");
+  color_reset();
+  getch();
+}
+
+void logging_in(){
+    printf("Logging in ");
+    fflush(stdout);
+    for (int i = 0 ; i < 4 ; i++)
+    {
+        Sleep(500);
+        fputc('.',stdout);
+        fputc(' ',stdout);
+        fflush(stdout);
+    } 
+    printf("\n");
+}
+
+void logging_out(){
+    printf("Logging out ");
+    fflush(stdout);
+    for (int i = 0 ; i < 4 ; i++)
+    {
+        Sleep(500);
+        fputc('.',stdout);
+        fputc(' ',stdout);
+        fflush(stdout);
+    } 
+    printf("\n");
 }
 
 #endif

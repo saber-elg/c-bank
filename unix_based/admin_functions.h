@@ -4,7 +4,6 @@
 #include "struct.h"
 #include "set_const.h"
 #include "client_functions.h"
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,8 +18,6 @@ void find_client_option();
 int update_account(int account_number);
 int admin_login();
 void admin_main_page();
-
-//int check_account_creation_requests();
 
 /*Creation of functions*/
 
@@ -43,7 +40,9 @@ void accept_account_creation_requests(){
     if (staging_file_length()==0)
     {
         printf("************** Account Creation Requests **************\n\n");
+        yellow();
         printf("No pending request.");
+        color_reset();
         unix_getch();
     }
     else
@@ -145,7 +144,6 @@ void find_client_option()
             case '1':
                 printf("Enter the client account number  :   ");
                 scanf("%d",&account_number);
-                unix_getch();
                 system("clear");
                 display_client_profile(get_client_by_account(account_number));
                 unix_getch();
@@ -154,7 +152,6 @@ void find_client_option()
             case '2':
                 printf("Enter the client CIN    :  ");
                 scanf("%s",cin);
-                unix_getch();
                 system("clear");
                 display_client_profile(get_client_by_cin(cin));
                 unix_getch();
@@ -164,7 +161,6 @@ void find_client_option()
             case '3':
                 printf("Enter the client Email  :   ");
                 scanf("%s",email);
-                unix_getch();
                 system("clear");
                 display_client_profile(get_client_by_email(email));
                 free(email);
@@ -197,7 +193,9 @@ int update_account(int account_number)
     }
     else
     { 
+        red();
         printf("******************     Update Account     ******************\n");
+        color_reset();
         Client *update=(Client*)malloc(sizeof(Client));
         update = user;
         printf("First Name       :    ");
@@ -211,24 +209,32 @@ int update_account(int account_number)
         strcpy(update->password,create_num_password());
         system("clear");
         display_client_profile(update);
+        blue();
         printf("\nAccount informations saved, are you sure you want to update this account! [y/n]  :  ");
+        color_reset();
         char answer;
         answer=unix_getch();
         while ((answer != 'y')&&(answer != 'n')&&(answer != 'Y')&&(answer != 'N'))
         {
             system("clear");
+            blue();
             printf("Unexpected answer, are you sure you want to update this account! [y/n]  :  ");
+            color_reset();
             answer=unix_getch();
             system("clear");
         }
         if ((answer == 'y')||(answer == 'Y'))
         {
+            yellow();
             update_client_in_file(*user,*update) ? printf("The client is well updated."):printf("The client is not updated.");
+            color_reset();
             unix_getch();
         }
         else
         {
+            yellow();
             printf("The update is canceled.");
+            color_reset();
             unix_getch();
         }
     }
@@ -243,8 +249,7 @@ int admin_login(){
     char* username=malloc(10);
     char* password=malloc(MAX_PASSWORD_LENGTH);
     printf("Username      :   ");
-    scanf("%s",username);
-    unix_getch();
+    fgets_no_newline_return(username,10);
     printf("\n\nPassword      :   ");
     password=get_password();
     if((!strcmp(username,"admin")) && (!strcmp(password,"admin")))
@@ -265,11 +270,11 @@ void admin_main_page()
         system("clear");
         char choice;
         int account_number;
-        printf("\n************* Admin space ***************\n\n");
-        printf("1. Account requests.\n");
-        printf("2. Display a client.\n");
-        printf("3. Update a client.\n");
-        printf("4. Log out");
+        printf("\n***************** Admin space ******************\n\n");
+        printf("\t1. Account requests.\n");
+        printf("\t2. Display a client.\n");
+        printf("\t3. Update a client.\n");
+        printf("\t4. Log out");
         choice = unix_getch();
         system("clear");
         switch (choice) 
@@ -294,11 +299,13 @@ void admin_main_page()
             case '4':// Quit page
                 system("clear");
                 printf("Thank you! Goodbye.");
-                unix_getch();
+                sleep(1);
                 return;
 
             default:
+                yellow();
                 printf("Invalid choice. Please enter a valid number.");
+                color_reset();
                 unix_getch();
                 break;
         }

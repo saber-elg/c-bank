@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "side_functions.h"
+
 
 void start();
 void loading();
@@ -48,18 +48,20 @@ void hide_cursor () {
 }
 
 void start (){
+  system("clear");
+  yellow();
   printf("_________          ___.                  __ \n");
   printf("\\_   ___ \\         \\_ |__ _____    ____ |  | __\n");
   printf("/    \\  \\/   ______ | __ \\__  \\  /    \\|  |/ /\n");
   printf("\\     \\____ /_____/ | \\_\\ \\/ __ \\|   |  \\    <\n");
   printf(" \\______  /         |___  (____  /___|  /__|_ \\\n");
   printf("        \\/              \\/     \\/     \\/     \\/\n\n");
+  color_reset();
   sleep(2);
   loading();
 }
 
 void loading (){
-    hide_cursor();
     printf("Loading ");
     fflush(stdout);
     int count = 0;
@@ -76,7 +78,6 @@ void loading (){
     }  
     printf("\n");
     color_reset();
-    enable_cursor();
 }
 
 void processing (){
@@ -114,7 +115,7 @@ void shut_down(){
   green();
   printf(" El  Hadifi  Soukaina");
   color_reset();
-  unix_getch();
+  getchar();
 }
 
 void logging_in(){

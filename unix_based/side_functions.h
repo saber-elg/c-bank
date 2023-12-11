@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include "struct.h"
 #include "set_const.h"
+#include "graphic.h"
 #include <termios.h>
 #include <ctype.h>
 #include <unistd.h>
@@ -150,8 +151,7 @@ int get_city_id(){
     }
 }
 
-char* get_security_question()
-{
+char* get_security_question(){
     while (1)
     {
         system("clear");

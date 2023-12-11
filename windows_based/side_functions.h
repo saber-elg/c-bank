@@ -7,6 +7,7 @@
 #include "struct.h"
 #include "set_const.h"
 #include <conio.h>
+#include <ctype.h>
 
 /*Prototyping the functions*/
 int push_to_request_file(Client client);
@@ -138,11 +139,11 @@ int get_city_id(){
         }
         system("cls"); 
     }
-    
 }
 
 char* get_security_question(){
-    while(1){
+    while(1)
+    {
         system("cls");
         printf(" Chose Your Security Question\n\n");
         printf(" ----------------------------------------------------------\n");
@@ -250,7 +251,7 @@ Client* get_client_by_email(char* email){
         printf("Error opening clients file while getting the client by email.");
         getch();
         system("cls");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -309,7 +310,7 @@ int find_client_account_position(int account_number) {
         perror("Error opening file while getting the client position.");
         getch();
         system("cls");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -366,7 +367,7 @@ int client_file_length(){
         perror("Error opening file while counting the file number of elements.");
         getch();
         system("cls");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -389,7 +390,7 @@ int staging_file_length(){
         perror("Error opening file while counting the file number of elements.");
         getch();
         system("cls");
-        printf("Shutting down.");
+        printf("Shutting down . . . \n");
         exit(EXIT_FAILURE);
     }
     else
@@ -410,7 +411,7 @@ int update_client_in_file(Client client,Client update){
         printf("Error opening file while updating the client");
         getch();
         system("cls");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -446,7 +447,7 @@ int update_password(int account_number,  char* new_password)
         perror("Error opening file while changing password.\n");
         getch();
         system("cls");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
 
@@ -484,7 +485,7 @@ void files_initialisation(){
         printf("Error while initialising clients file.");
         getch();
         system("cls");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     FILE* stage_file=fopen(PATH_STAGING_CLIENT_BIN_FILE,"ab");
@@ -493,7 +494,7 @@ void files_initialisation(){
         printf("Error while initialising staging clients file.");
         getch();
         system("cls");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     fclose(client_file);
