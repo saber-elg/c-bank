@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "side_functions.h"
-
+#include "graphic.h"
 /*Prototype of functions*/
 
 void accept_account_creation_requests();
@@ -39,7 +39,9 @@ void accept_account_creation_requests(){
     // Process each client in the requests file
     if (staging_file_length()==0)
     {
+        yellow();
         printf("\n\n\n\t\tNo pending request.");
+        color_reset();
         getch();
     }
     else
@@ -88,7 +90,9 @@ void accept_account_creation_requests(){
             } 
             else 
             {
+                blue();
                 printf("\nThe client %s %s already exists.\n", client->first_name, client->last_name);
+                color_reset();
                 getch();
             }
             system("cls");
@@ -170,7 +174,9 @@ Client* find_client_option()
                 break;
 
             default:
+                yellow();
                 printf("\nUnexpected answer! Retry.");
+                color_reset();
                 getch();
                 break;
         }
@@ -186,7 +192,9 @@ int update_account(int account_number)
     system("clear");
     if(user == NULL)
     { 
+        blue();
         printf("Client not found.\n");
+        color_reset();
         getch();
     }
     else
@@ -204,24 +212,32 @@ int update_account(int account_number)
         strcpy(update->password,create_num_password());
         system("cls");
         display_client_profile(update);
+        blue();
         printf("\nAccount informations saved, are you sure you want to update this account! [y/n]  :  ");
+        color_reset();
         char answer;
         answer=getch();
         while ((answer != 'y')&&(answer != 'n')&&(answer != 'Y')&&(answer != 'N'))
         {
             system("cls");
+            blue();
             printf("Unexpected answer, are you sure you want to update this account! [y/n]  :  ");
+            color_reset();
             answer=getch();
             system("cls");
         }
         if ((answer == 'y')||(answer == 'Y'))
         {
+            yellow();
             update_client_in_file(*user,*update) ? printf("The client is well updated."):printf("The client is not updated.");
+            color_reset();
             getch();
         }
         else
         {
+            yellow();
             printf("The update is canceled.");
+            color_reset();
             getch();
         }
     }
@@ -234,8 +250,10 @@ int find_and_update_client(int account_number)
     user = get_client_by_account(account_number);
     system("cls");
     if(user == NULL)
-    { 
+    {
+        yellow();
         printf("Client not find.");
+        color_reset();
         getch();
     }
     else
@@ -253,24 +271,32 @@ int find_and_update_client(int account_number)
         strcpy(update->password,create_num_password());
         system("cls");
         display_client_profile(update);
+        blue();
         printf("\nAccount informations saved, are you sure you want to update this account! [y/n]  :  ");
+        color_reset();
         char answer;
         answer=getch();
         while ((answer != 'y')&&(answer != 'n')&&(answer != 'Y')&&(answer != 'N'))
         {
             system("cls");
+            blue();
             printf("Unexpected answer, are you sure you want to update this account! [y/n]  :  ");
+            color_reset();
             answer=getch();
             system("cls");
         }
         if ((answer == 'y')||(answer == 'Y'))
-        {
+        {   
+            yellow();
             update_client_in_file(*user,*update) ? printf("The client is well updated."):printf("The client is not updated.");
+            color_reset();
             getch();
         }
         else
         {
+            yellow();
             printf("The update is canceled.");
+            color_reset();
             getch();
         }
     }
@@ -336,7 +362,9 @@ void admin_main_page()
                 return;
 
             default:
+                yellow();
                 printf("Invalid choice. Please enter a valid number.\n");
+                color_reset();
                 getch();
                 break;
         }

@@ -10,6 +10,7 @@
 #include "struct.h"
 #include "set_const.h"
 #include "side_functions.h"
+#include "graphic.h"
 //#include <openssl/sha.h>
 
 /*prototyping functions*/
@@ -41,7 +42,9 @@ int request_client_account_creation() {
     //verifiying whether another account already exist with this CIN or not.
     if (get_client_by_cin(client->CIN) != NULL)
     {
-        puts("\nThis cin already exists.");
+        blue();
+        puts("\nThis CIN already exists.");
+        color_reset();
         getch();
         return 0;
     }
@@ -51,7 +54,9 @@ int request_client_account_creation() {
     //verifiying whether another account already exist with this email or not.
     if (get_client_by_email(client->email)!= NULL)
     {
+        blue();
         puts("\this email already exists.");
+        color_reset();
         getch();
         return 0;
     }
@@ -67,13 +72,17 @@ int request_client_account_creation() {
     printf("Account Holder   :  %s %s\n",client->first_name,client->last_name);
     printf("Account CIN      :  %s\n",client->CIN);
     printf("Account E-mail   :  %s",client->email);
+    blue();
     printf("\n\nAccount informations saved, are you sure you want to create this account! [y/n]  :  ");
+    color_reset();
     char answer;
     answer = getch();
     while ((answer != 'y')&&(answer != 'n')&&(answer != 'Y')&&(answer != 'N'))
     {
         system("cls");
+        blue();
         printf("Unexpected answer, are you sure you want to create this account! [y/n]  :  ");
+        color_reset();
         answer = getch();
     }
     system("cls");
@@ -84,7 +93,9 @@ int request_client_account_creation() {
     }
     else
     {
+        blue();
         printf("Request canceled.");
+        color_reset();
         getch();
         system("cls");
     }
@@ -111,11 +122,7 @@ Client* client_authentification() {
         perror("Error opening clients file while login");
         getch();
         system("cls");
-        printf("Shutting down\n");
-        Sleep(750);
-        printf("Shutting down .\n");
-        Sleep(750);
-        printf("Shutting down . .\n");
+        printf("Shutting down.\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -128,14 +135,18 @@ Client* client_authentification() {
             { 
                 if ((strcmp(password, user->password) == 0))
                 {
+                    blue();
                     puts("authentication reussite.\n");
+                    color_reset();
                     getch();
                     fclose(client_file);
                     return user;
                 }
                 else
                 {
+                    blue();
                     printf("mot de passe errone.\n");
+                    color_reset();
                     getch();
                 }
             }
@@ -204,7 +215,9 @@ int make_transfer(Client *sender) {
     while(get_client_by_account(account_number)==NULL)
     {
         system("cls");
+        blue();
         printf("Unsuccessful operation! The entred account does not exist!");
+        color_reset();
         getch();
         system("cls");
         printf("Enter the destination account number  : ");
@@ -235,14 +248,20 @@ int make_transfer(Client *sender) {
         update_client_in_file(*receiver,*update_receiver);
         sender->balance -= transfer_amount;
         system("cls");
+        processing ();
+        system("cls");
+        blue();
         printf("Transfer of %.2f successfully completed to %s %s.",transfer_amount,receiver->first_name,receiver->last_name);
+        color_reset();
         getch();
         return(1);
     }
     else
     { 
         system("cls");
+        blue();
         printf("Unsuccessful operation, your balance is  insufficient."); 
+        color_reset();
         getch();
     }
     return(0);   
@@ -259,7 +278,11 @@ int make_deposit(Client *client) {
     if(update_client_in_file(*client,*temp)==1)
     {
         system("cls");
+        processing ();
+        system("cls");
+        blue();
         printf("Deposit of %.2f successfully completed.\n", deposit_amount);
+        color_reset();
         client->balance += deposit_amount;
         free(temp);
         getch();
@@ -279,7 +302,9 @@ int make_withdrawal(Client *client) {
     if (withdrawal_amount > client->balance) 
     {
         system("cls");
+        blue();
         printf("Unsuccessful operation, your balance is  insufficient.\n");
+        color_reset();
         getch();
     }
     else
@@ -288,7 +313,11 @@ int make_withdrawal(Client *client) {
         if(update_client_in_file(*client,*temp)==1)
         {
             system("cls");
+            processing ();
+            system("cls");
+            blue();
             printf("Withdrawal of %.2f successfully completed.\n", withdrawal_amount);
+            color_reset();
             client->balance -= withdrawal_amount;
             free(temp);
             getch();
@@ -322,7 +351,9 @@ void check_account_creation_status(){
     { 
         if (get_client_by_cin(cin) != NULL)
         {
+            blue();
             printf("\n\n\n\t\t\tYour request is realised! Press any key to display your profile.");
+            color_reset();
             getch();
             system("cls");
             display_client_profile(get_client_by_cin(cin));
@@ -349,11 +380,15 @@ void check_account_creation_status(){
 
     if (user != NULL)
     {
+        blue();
         printf("\n\nYour request is still in process! Visit us later."); 
+        color_reset();
+
     }
     else
-    {
-        printf("\n\n\n\t\tYou have not submitted any request, please try to sign up.");  
+    {   blue();
+        printf("\n\n\n\t\tYou have not submitted any request, please try to sign up.");
+        color_reset();  
     }
     getch();
     system("cls");
@@ -363,6 +398,8 @@ void client_login_page(){
     while(1)
     {
         system("cls");
+        Client* user=(Client*)malloc(sizeof(Client));
+        
         char choice;
         printf("\n************ Client Space ************\n\n");
         printf("1. Log in\n");
@@ -371,28 +408,24 @@ void client_login_page(){
         printf("4. Forgot password\n");
         printf("5. Quit");
         choice=getch();
-        int i=0;
         system("cls");
         switch (choice) 
         {
             case '1':  //log in
-                do{
-                    Client* user=(Client*)malloc(sizeof(Client));
-                    user=client_authentification();
                     system("cls");
+                    user=client_authentification();
                     if(user == NULL)
                     {   
                         printf("\n\n\n\n\n");
+                        blue();
                         printf("\t\t\tInvalid Account_number or password ! Retry.\n");
+                        color_reset();
                         getch();
-                        i++;
                     }
                     else
                     {
                         client_main_page(user); 
-                        break;
                     }
-                }while(i<3);
                 break;        
 
             case '2':// Sign up
@@ -406,23 +439,31 @@ void client_login_page(){
             case '4':// Forgot password
                 if (forgot_password()==1)
                 {
+                    blue();
                     printf("\nThe password has been succesfully changed.");
+                    color_reset();
                 }
                 else
                 {
+                    blue();
                     printf("\nInvalid answer! Password reset canceled.");
+                    color_reset();
                 } 
                 getch();
                 break;
 
             case '5':// Quit page
                 system("cls");
+                yellow();
                 printf("\n\n\n\n\t\t\tThank you! Goodbye.");
+                color_reset();
                 getch();
                 return;
 
             default:
+                yellow();
                 printf("\n\n\n\n\t\tInvalid choice. Please enter a valid number.");
+                color_reset();
                 getch();
                 system("cls");
                 break;
@@ -441,9 +482,8 @@ void client_main_page(Client *client){
         printf("3. Withdrawal\n");
         printf("4. Transfer\n");
         printf("5. Check balance\n");
-        printf("6. Log out");
-        scanf("%d", &choice);
-        getch();
+        printf("6. Log out\n");
+        choice = getch();
         system("cls");
         switch (choice) {
             case '1':// Profile
@@ -471,11 +511,15 @@ void client_main_page(Client *client){
                 getch();
                 break;
             case '6':// Log out
+                yellow();
                 printf("Thank you! Goodbye.\n");
+                color_reset();
                 getch();
                 return;
             default:
+                yellow();
                 printf("Invalid choice. Please enter a valid number.\n");
+                color_reset();
                 getch();
                 break;
         }
