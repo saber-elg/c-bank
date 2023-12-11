@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "side_functions.h"
+#include "graphic.h"
 
 /*Prototype of functions*/
 
@@ -32,16 +33,17 @@ void accept_account_creation_requests(){
         printf("Error opening requests file");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        shut_down();
         exit(EXIT_FAILURE);
     }
 
     Client* client = (Client*)malloc(sizeof(Client));
-
+    
     // Process each client in the requests file
     if (staging_file_length()==0)
     {
-        printf("\n\n\n\t\tNo pending request.");
+        printf("************** Account Creation Requests **************\n\n");
+        printf("No pending request.");
         unix_getch();
     }
     else
@@ -49,13 +51,14 @@ void accept_account_creation_requests(){
         Client *client = (Client*)malloc(sizeof(Client));
         for (int i = 1; i <= staging_file_length(); i++) 
         {
+            printf("************** Account Creation Requests **************\n\n");
             fread(client, sizeof(Client), 1, staging_file);
             FILE* client_file = fopen(PATH_CLIENT_BIN_FILE, "ab");
             if (client_file == NULL) {
                 printf("Error opening accounts file");
                 unix_getch();
                 system("clear");
-                printf("Shutting down.");
+                shut_down();
                 exit(EXIT_FAILURE);
             }
             // Check if the client is not already in the accounts file
@@ -113,7 +116,7 @@ void free_request_file() {
         printf("Error opening file");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     // Close the file after clearing its content
@@ -196,13 +199,14 @@ int update_account(int account_number)
     { 
         printf("******************     Update Account     ******************\n");
         Client *update=(Client*)malloc(sizeof(Client));
+        update = user;
         printf("First Name       :    ");
         fgets_no_newline_return(update->first_name,FIRST_NAME_LENGHT);
         printf("Last Name        :    ");
         fgets_no_newline_return(update->last_name,LAST_NAME_LENGHT);
         printf("CIN              :    ");
         fgets_no_newline_return(update->CIN, MAX_CIN_LENGHT);
-        printf("Email            :   ");
+        printf("Email            :    ");
         fgets_no_newline_return(update->email, MAX_EMAIL_LENGHT);
         strcpy(update->password,create_num_password());
         system("clear");
@@ -245,6 +249,9 @@ int admin_login(){
     password=get_password();
     if((!strcmp(username,"admin")) && (!strcmp(password,"admin")))
     {
+        system("clear");
+        logging_in();
+        system("clear");
         return 1;
     }
     return 0;

@@ -8,6 +8,7 @@
 #include "set_const.h"
 #include "client_functions.h"
 #include "admin_functions.h"
+#include "graphic.h"
 
 
 /*Prototyping the functions*/
@@ -17,6 +18,8 @@ void admin_or_client();
 /*Declaring the functions*/
 
 void admin_or_client(){
+    hide_cursor();
+    system("clear");
     while (1)
     {
         files_initialisation();
@@ -33,7 +36,7 @@ void admin_or_client(){
         while((choice != '1') && (choice != '2') && (choice != '3'))
         {
             system("clear");
-            printf("*********************  c-bank  *********************\n\n");
+            printf("\n*********************  c-bank  *********************\n\n");
             printf("\n(1)    I am a client\n\n");
             printf("(2)    I am an administrator\n\n");
             printf("(3)    Shut down");
@@ -70,7 +73,7 @@ void admin_or_client(){
                 break;
                 
             case '3':
-                printf("\n\n\n\n\n\t\t\tShutting down . . .\n\n\n\n\n\n\n\n\n");
+                shut_down();
                 return;
 
             default:

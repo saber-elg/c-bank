@@ -7,6 +7,7 @@
 #include "set_const.h"
 #include "client_functions.h"
 #include "admin_functions.h"
+#include "graphic.h"
 
 
 /*Prototyping the functions*/
@@ -22,8 +23,9 @@ void admin_or_client(){
     printf("/    \\  \\/   ______ | __ \\__  \\  /    \\|  |/ /\n");
     printf("\\     \\____ /_____/ | \\_\\ \\/ __ \\|   |  \\    <\n");
     printf(" \\______  /         |___  (____  /___|  /__|_ \\\n");
-    printf("        \\/              \\/     \\/     \\/     \\/\n");
-    getch();
+    printf("        \\/              \\/     \\/     \\/     \\/\n\n");
+    Sleep(2000);
+    loading();
     system("cls");
     while (1)
     {

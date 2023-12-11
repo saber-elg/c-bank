@@ -7,7 +7,9 @@
 #include "struct.h"
 #include "set_const.h"
 #include <termios.h>
+#include <ctype.h>
 #include <unistd.h>
+
 
 /*Prototyping the functions*/
 int push_to_request_file(Client client);
@@ -99,8 +101,7 @@ int get_city_id(){
     while(1)
     {
         system("clear");
-        printf(" City\n\n");
-        printf(" Chose Your City\n\n");
+        printf(" Chose Your City\n");
         printf(" ----------------------------------------------------------\n");
         printf("\t 1.  Los Angeles                                         \n");
         printf("\t 2.  Chicago                                             \n");
@@ -233,7 +234,7 @@ Client* get_client_by_cin(char* cin){
         printf("Error opening clients file while getting the client by cin.");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -263,7 +264,7 @@ Client* get_client_by_email(char* email){
         printf("Error opening clients file while getting the client by email.");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -292,7 +293,7 @@ Client* get_client_by_account(int account_number){
         perror("Error opening file while getting the client by account.");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -322,7 +323,7 @@ int find_client_account_position(int account_number) {
         perror("Error opening file while getting the client position.");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -349,7 +350,7 @@ Client* get_client_by_position(int pos){
         perror("Error opening file while searching for a client by position.");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -379,7 +380,7 @@ int client_file_length(){
         perror("Error opening file while counting the file number of elements.");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -402,7 +403,7 @@ int staging_file_length(){
         perror("Error opening file while counting the file number of elements.");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -423,7 +424,7 @@ int update_client_in_file(Client client,Client update){
         printf("Error opening file while updating the client");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -459,7 +460,7 @@ int update_password(int account_number,  char* new_password)
         perror("Error opening file while changing password.\n");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
 
@@ -497,7 +498,7 @@ void files_initialisation(){
         printf("Error while initialising clients file.");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     FILE* stage_file=fopen(PATH_STAGING_CLIENT_BIN_FILE,"ab");
@@ -506,7 +507,7 @@ void files_initialisation(){
         printf("Error while initialising staging clients file.");
         unix_getch();
         system("clear");
-        printf("Shutting down.");
+        printf("Shutting down . . .\n");
         exit(EXIT_FAILURE);
     }
     fclose(client_file);

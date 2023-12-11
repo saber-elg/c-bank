@@ -1,0 +1,60 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/mohamed-saber/Desktop/c-bank/unix_based/output/main'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _push_to_request_file, symObjAddr: 0x0, symBinAddr: 0x100002958, symSize: 0xC8 }
+  - { offsetInCU: 0x14F, offset: 0x14F, size: 0x8, addend: 0x0, symName: _push_to_request_file, symObjAddr: 0x0, symBinAddr: 0x100002958, symSize: 0xC8 }
+  - { offsetInCU: 0x186, offset: 0x186, size: 0x8, addend: 0x0, symName: _create_num_password, symObjAddr: 0xC8, symBinAddr: 0x100002A20, symSize: 0x1C0 }
+  - { offsetInCU: 0x1CA, offset: 0x1CA, size: 0x8, addend: 0x0, symName: _get_city_id, symObjAddr: 0x288, symBinAddr: 0x100002BE0, symSize: 0x178 }
+  - { offsetInCU: 0x200, offset: 0x200, size: 0x8, addend: 0x0, symName: _get_security_question, symObjAddr: 0x424, symBinAddr: 0x100002D7C, symSize: 0x100 }
+  - { offsetInCU: 0x236, offset: 0x236, size: 0x8, addend: 0x0, symName: _display_client_profile, symObjAddr: 0x524, symBinAddr: 0x100002E7C, symSize: 0xE0 }
+  - { offsetInCU: 0x25A, offset: 0x25A, size: 0x8, addend: 0x0, symName: _get_password, symObjAddr: 0x604, symBinAddr: 0x100002F5C, symSize: 0x124 }
+  - { offsetInCU: 0x29E, offset: 0x29E, size: 0x8, addend: 0x0, symName: _get_client_by_cin, symObjAddr: 0x728, symBinAddr: 0x100003080, symSize: 0x130 }
+  - { offsetInCU: 0x31A, offset: 0x31A, size: 0x8, addend: 0x0, symName: _get_client_by_email, symObjAddr: 0x858, symBinAddr: 0x1000031B0, symSize: 0x120 }
+  - { offsetInCU: 0x39C, offset: 0x39C, size: 0x8, addend: 0x0, symName: _get_client_by_account, symObjAddr: 0x978, symBinAddr: 0x1000032D0, symSize: 0x11C }
+  - { offsetInCU: 0x41E, offset: 0x41E, size: 0x8, addend: 0x0, symName: _find_client_account_position, symObjAddr: 0xA94, symBinAddr: 0x1000033EC, symSize: 0x108 }
+  - { offsetInCU: 0x475, offset: 0x475, size: 0x8, addend: 0x0, symName: _get_client_by_position, symObjAddr: 0xB9C, symBinAddr: 0x1000034F4, symSize: 0x100 }
+  - { offsetInCU: 0x4BD, offset: 0x4BD, size: 0x8, addend: 0x0, symName: _client_file_length, symObjAddr: 0xC9C, symBinAddr: 0x1000035F4, symSize: 0xB4 }
+  - { offsetInCU: 0x505, offset: 0x505, size: 0x8, addend: 0x0, symName: _staging_file_length, symObjAddr: 0xD50, symBinAddr: 0x1000036A8, symSize: 0xB4 }
+  - { offsetInCU: 0x54D, offset: 0x54D, size: 0x8, addend: 0x0, symName: _update_client_in_file, symObjAddr: 0xE04, symBinAddr: 0x10000375C, symSize: 0x154 }
+  - { offsetInCU: 0x597, offset: 0x597, size: 0x8, addend: 0x0, symName: _update_password, symObjAddr: 0xF58, symBinAddr: 0x1000038B0, symSize: 0x158 }
+  - { offsetInCU: 0x60B, offset: 0x60B, size: 0x8, addend: 0x0, symName: _fgets_no_newline_return, symObjAddr: 0x10B0, symBinAddr: 0x100003A08, symSize: 0x5C }
+  - { offsetInCU: 0x640, offset: 0x640, size: 0x8, addend: 0x0, symName: _files_initialisation, symObjAddr: 0x110C, symBinAddr: 0x100003A64, symSize: 0xE0 }
+  - { offsetInCU: 0x675, offset: 0x675, size: 0x8, addend: 0x0, symName: _clear_nprevious_lines, symObjAddr: 0x11EC, symBinAddr: 0x100003B44, symSize: 0x6C }
+  - { offsetInCU: 0x6B8, offset: 0x6B8, size: 0x8, addend: 0x0, symName: _clearLine, symObjAddr: 0x1258, symBinAddr: 0x100003BB0, symSize: 0x2C }
+  - { offsetInCU: 0x6CE, offset: 0x6CE, size: 0x8, addend: 0x0, symName: _disableEcho, symObjAddr: 0x1284, symBinAddr: 0x100003BDC, symSize: 0x7C }
+  - { offsetInCU: 0x6F4, offset: 0x6F4, size: 0x8, addend: 0x0, symName: _enableEcho, symObjAddr: 0x1300, symBinAddr: 0x100003C58, symSize: 0x7C }
+  - { offsetInCU: 0x71A, offset: 0x71A, size: 0x8, addend: 0x0, symName: _unix_getch, symObjAddr: 0x137C, symBinAddr: 0x100003CD4, symSize: 0xB8 }
+  - { offsetInCU: 0x763, offset: 0x763, size: 0x8, addend: 0x0, symName: _red, symObjAddr: 0x1434, symBinAddr: 0x100003D8C, symSize: 0x1C }
+  - { offsetInCU: 0x778, offset: 0x778, size: 0x8, addend: 0x0, symName: _green, symObjAddr: 0x1450, symBinAddr: 0x100003DA8, symSize: 0x1C }
+  - { offsetInCU: 0x78D, offset: 0x78D, size: 0x8, addend: 0x0, symName: _yellow, symObjAddr: 0x146C, symBinAddr: 0x100003DC4, symSize: 0x1C }
+  - { offsetInCU: 0x7A2, offset: 0x7A2, size: 0x8, addend: 0x0, symName: _blue, symObjAddr: 0x1488, symBinAddr: 0x100003DE0, symSize: 0x1C }
+  - { offsetInCU: 0x7B7, offset: 0x7B7, size: 0x8, addend: 0x0, symName: _purple, symObjAddr: 0x14A4, symBinAddr: 0x100003DFC, symSize: 0x1C }
+  - { offsetInCU: 0x7CC, offset: 0x7CC, size: 0x8, addend: 0x0, symName: _cyan, symObjAddr: 0x14C0, symBinAddr: 0x100003E18, symSize: 0x1C }
+  - { offsetInCU: 0x7E1, offset: 0x7E1, size: 0x8, addend: 0x0, symName: _color_reset, symObjAddr: 0x14DC, symBinAddr: 0x100003E34, symSize: 0x1C }
+  - { offsetInCU: 0x7F6, offset: 0x7F6, size: 0x8, addend: 0x0, symName: _enable_cursor, symObjAddr: 0x14F8, symBinAddr: 0x100003E50, symSize: 0x1C }
+  - { offsetInCU: 0x80B, offset: 0x80B, size: 0x8, addend: 0x0, symName: _hide_cursor, symObjAddr: 0x1514, symBinAddr: 0x100003E6C, symSize: 0x1C }
+  - { offsetInCU: 0x820, offset: 0x820, size: 0x8, addend: 0x0, symName: _start, symObjAddr: 0x1530, symBinAddr: 0x100003E88, symSize: 0x64 }
+  - { offsetInCU: 0x835, offset: 0x835, size: 0x8, addend: 0x0, symName: _loading, symObjAddr: 0x1594, symBinAddr: 0x100003EEC, symSize: 0x104 }
+  - { offsetInCU: 0x875, offset: 0x875, size: 0x8, addend: 0x0, symName: _processing, symObjAddr: 0x1698, symBinAddr: 0x100003FF0, symSize: 0xB0 }
+  - { offsetInCU: 0x8A7, offset: 0x8A7, size: 0x8, addend: 0x0, symName: _shut_down, symObjAddr: 0x1748, symBinAddr: 0x1000040A0, symSize: 0x10C }
+  - { offsetInCU: 0x8D9, offset: 0x8D9, size: 0x8, addend: 0x0, symName: _logging_in, symObjAddr: 0x1854, symBinAddr: 0x1000041AC, symSize: 0xB0 }
+  - { offsetInCU: 0x90B, offset: 0x90B, size: 0x8, addend: 0x0, symName: _logging_out, symObjAddr: 0x1904, symBinAddr: 0x10000425C, symSize: 0xB0 }
+  - { offsetInCU: 0x93D, offset: 0x93D, size: 0x8, addend: 0x0, symName: _request_client_account_creation, symObjAddr: 0x19B4, symBinAddr: 0x10000430C, symSize: 0x3A4 }
+  - { offsetInCU: 0x974, offset: 0x974, size: 0x8, addend: 0x0, symName: _client_authentification, symObjAddr: 0x1D58, symBinAddr: 0x1000046B0, symSize: 0x200 }
+  - { offsetInCU: 0x9F0, offset: 0x9F0, size: 0x8, addend: 0x0, symName: _forgot_password, symObjAddr: 0x1F58, symBinAddr: 0x1000048B0, symSize: 0x244 }
+  - { offsetInCU: 0xA88, offset: 0xA88, size: 0x8, addend: 0x0, symName: _make_transfer, symObjAddr: 0x219C, symBinAddr: 0x100004AF4, symSize: 0x378 }
+  - { offsetInCU: 0xAFC, offset: 0xAFC, size: 0x8, addend: 0x0, symName: _make_deposit, symObjAddr: 0x2514, symBinAddr: 0x100004E6C, symSize: 0x184 }
+  - { offsetInCU: 0xB46, offset: 0xB46, size: 0x8, addend: 0x0, symName: _make_withdrawal, symObjAddr: 0x2698, symBinAddr: 0x100004FF0, symSize: 0x1C8 }
+  - { offsetInCU: 0xB91, offset: 0xB91, size: 0x8, addend: 0x0, symName: _check_account_creation_status, symObjAddr: 0x2860, symBinAddr: 0x1000051B8, symSize: 0x21C }
+  - { offsetInCU: 0xC01, offset: 0xC01, size: 0x8, addend: 0x0, symName: _client_login_page, symObjAddr: 0x2A7C, symBinAddr: 0x1000053D4, symSize: 0x1C0 }
+  - { offsetInCU: 0xC44, offset: 0xC44, size: 0x8, addend: 0x0, symName: _client_main_page, symObjAddr: 0x2C50, symBinAddr: 0x1000055A8, symSize: 0x1C8 }
+  - { offsetInCU: 0xC87, offset: 0xC87, size: 0x8, addend: 0x0, symName: _accept_account_creation_requests, symObjAddr: 0x2E30, symBinAddr: 0x100005788, symSize: 0x350 }
+  - { offsetInCU: 0xD29, offset: 0xD29, size: 0x8, addend: 0x0, symName: _free_request_file, symObjAddr: 0x3180, symBinAddr: 0x100005AD8, symSize: 0x74 }
+  - { offsetInCU: 0xD4D, offset: 0xD4D, size: 0x8, addend: 0x0, symName: _find_client_option, symObjAddr: 0x31F4, symBinAddr: 0x100005B4C, symSize: 0x1E0 }
+  - { offsetInCU: 0xDA9, offset: 0xDA9, size: 0x8, addend: 0x0, symName: _update_account, symObjAddr: 0x33E4, symBinAddr: 0x100005D3C, symSize: 0x2E8 }
+  - { offsetInCU: 0xE0C, offset: 0xE0C, size: 0x8, addend: 0x0, symName: _admin_login, symObjAddr: 0x36CC, symBinAddr: 0x100006024, symSize: 0xF8 }
+  - { offsetInCU: 0xE42, offset: 0xE42, size: 0x8, addend: 0x0, symName: _admin_main_page, symObjAddr: 0x37C4, symBinAddr: 0x10000611C, symSize: 0x140 }
+  - { offsetInCU: 0xE85, offset: 0xE85, size: 0x8, addend: 0x0, symName: _admin_or_client, symObjAddr: 0x3914, symBinAddr: 0x10000626C, symSize: 0x27C }
+  - { offsetInCU: 0xED3, offset: 0xED3, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x3B90, symBinAddr: 0x1000064E8, symSize: 0x2C }
+...
