@@ -1,3 +1,6 @@
 .DS_Store
 unix_based/.DS_Store
 .vscode/
+staging_clients.bin
+clients.bin
+output
