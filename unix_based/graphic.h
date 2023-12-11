@@ -106,9 +106,9 @@ void shut_down(){
   system("clear");
   sleep(1);
   red();
-  printf("\t\t    Developed by :\n\n");
+  printf("\t\t   Developed by :\n\n");
   green();
-  printf("Mohamed-Saber El Guelta ");
+  printf("El Guelta Mohamed-Saber ");
   color_reset();
   printf(" &&  ");
   green();
