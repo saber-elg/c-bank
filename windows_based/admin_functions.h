@@ -144,7 +144,7 @@ void find_client_option()
         char *cin=(char*)malloc(MAX_CIN_LENGHT);
         char* email=(char*)malloc(MAX_EMAIL_LENGHT);
         system("cls");
-        yellow()
+        yellow();
         printf("********************* Find Client ***********************\n\n");
         color_reset();
         printf("Search options :\n\n");
@@ -379,7 +379,7 @@ void admin_main_page()
             case '4':// Disable and enable client
                 system("clear"); 
                 disable_or_enable_account();
-                unix_getch();
+                getch();
                 break;
 
             case '5':// Quit page

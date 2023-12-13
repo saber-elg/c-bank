@@ -409,7 +409,7 @@ void check_account_creation_status(){
                 printf("Your account is closed. Contact admin for help\n");
                 color_reset();
                 getch();
-                return
+                return;
             }
             green();
             printf("Your request is realised! Press any key to display your profile\n");
@@ -514,7 +514,7 @@ void client_login_page(){
                 printf("Goodbye . . .\n");
                 color_reset();
                 fflush(stdout);
-                sleep(1000);
+                Sleep(1000);
                 return;
 
             default:

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include "struct.h"
 #include "set_const.h"
+#include "graphic.h"
 #include <conio.h>
 #include <ctype.h>
 
@@ -158,11 +159,11 @@ char* get_security_question(){
                 return("What is the first name of your oldest cousin?");
 
             case '2':
-                system("cls")
+                system("cls");
                 return("What is your favorite food?");
 
             case '3':
-                system("cls")
+                system("cls");
                 return("Where did you go on your favorite vacation?");
 
             default:
@@ -213,7 +214,7 @@ char* get_password(){
             }
          continue;
         }
-        red
+        red();
         printf("*");
         i++;
         
