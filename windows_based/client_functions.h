@@ -68,6 +68,7 @@ int request_client_account_creation() {
     fgets_no_newline_return(client->security.answer,SEC_ANSWER_LENGHT);
     client->city_id = get_city_id();
     client->balance=0;
+    client->account_status = 1;
     system("cls");
     yellow();
     printf("*********************** Account Creation ************************\n\n");
@@ -142,21 +143,39 @@ Client* client_authentification() {
             { 
                 if ((strcmp(password, user->password) == 0))
                 {
-                    blue();
-                    logging_in()
-                    color_reset();
-                    fclose(client_file);
-                    return user;
+                    if (user->account_status != 0)
+                    {
+                        blue();
+                        logging_in();
+                        color_reset();
+                        fclose(client_file);
+                        return user;  
+                    }
+                    else
+                    {
+                        yellow();
+                        printf("This account is closed. Contact admin for help.");
+                        color_reset();
+                        getch();
+                        fclose(client_file);
+                        return NULL;
+                    }
                 }
                 else
                 {
-                    blue();
-                    printf("mot de passe errone.\n");
+                    red();
+                    printf("Invalid Password\n");
                     color_reset();
                     getch();
+                    fclose(client_file);
+                    return NULL;
                 }
             }
         }
+        blue();
+        printf("Account number does not exist");
+        color_reset();
+        getch();
     }
     fclose(client_file);
     return NULL;
@@ -384,8 +403,16 @@ void check_account_creation_status(){
     { 
         if (get_client_by_cin(cin) != NULL)
         {
-            blue();
-            printf("\n\n\n\t\t\tYour request is realised! Press any key to display your profile.");
+            if (get_client_by_cin(cin)->account_status == 0)
+            {
+                red();
+                printf("Your account is closed. Contact admin for help\n");
+                color_reset();
+                getch();
+                return
+            }
+            green();
+            printf("Your request is realised! Press any key to display your profile\n");
             color_reset();
             getch();
             system("cls");
@@ -451,15 +478,7 @@ void client_login_page(){
             case '1':  //log in
                     system("cls");
                     user=client_authentification();
-                    if(user == NULL)
-                    {   
-                        printf("\n\n\n\n");
-                        red();
-                        printf("Invalid Account_number or password ! Retry.\n");
-                        color_reset();
-                        getch();
-                    }
-                    else
+                    if(user != NULL)
                     {
                         client_main_page(user); 
                     }
@@ -512,7 +531,6 @@ void client_main_page(Client *client){
     while(1)
     {
         system("cls");
-        int choice;
         yellow();
         printf("\n********************* Account Space **********************\n\n\n");
         color_reset();
@@ -521,11 +539,12 @@ void client_main_page(Client *client){
         printf("\t3. Withdrawal\n\n");
         printf("\t4. Transfer\n\n");
         printf("\t5. Check balance\n\n");
-        printf("\t6. Log out\n\n");
+        printf("\t6. Account closure\n\n");
+        printf("\t7. Log out\n\n");
         yellow();
         printf("\n***********************************************************\n\n");
         color_reset();
-        choice = getch();
+        char choice = getch();
         system("cls");
         switch (choice) {
             case '1':// Profile
@@ -561,7 +580,19 @@ void client_main_page(Client *client){
                 getch();
                 break;
 
-            case '6':// Log out
+            case '6':// Account closure
+                yellow();
+                printf("********************* Account closure **********************\n\n");
+                color_reset();
+                printf("\n Are you sure you want to continue this operation is critical\n");
+                red();
+                printf("The account has been closed. You can no longer acces to this account\n");
+                color_reset();
+                getch();
+                system("cls");
+                return;
+
+            case '7':// Log out
                 yellow();
                 logging_out();
                 color_reset();

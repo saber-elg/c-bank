@@ -263,6 +263,52 @@ int update_account(int account_number)
     return 0;
 }
 
+// Disable or enable account options
+void disable_or_enable_account(){
+    printf("********************* Disable / Enable **********************\n\n");
+    printf("  Enter the account number    :     ");
+    int account_number;
+    scanf("%d",&account_number);
+    system("cls");
+    display_client_profile(get_client_by_account(account_number));
+    getch();
+    char choice;
+    green();
+    printf("  1. Enable");
+    red();
+    printf("                                      2. Disable\n");
+    color_reset();
+    choice = getch();
+    system("cls");
+    switch (choice)
+    {
+    case '1':
+        if (get_client_by_account(account_number) != NULL)
+        {
+            enable_account(get_client_by_account(account_number));
+            green();
+            printf("Account has been activated\n");
+            color_reset();
+            getch();
+        }
+        break;
+    
+    case '2':
+        if (get_client_by_account(account_number) != NULL)
+        {
+            disable_account(get_client_by_account(account_number));
+            red();
+            printf("Account has been closed\n");
+            color_reset();
+            getch();
+        }
+        break;
+
+    default:
+        break;
+    }  
+    system("cls");
+}
 
 // Returns 1 if the admin is well logged else it returns 0
 int admin_login(){
@@ -299,11 +345,12 @@ void admin_main_page()
         printf("\n******************** Admin Space *******************\n\n\n");
         color_reset();
         printf("\t1. Account requests\n\n");
-        printf("\t2. Display a client\n\n");
-        printf("\t3. Update a client\n\n");
-        printf("\t4. Log out\n");
+        printf("\t2. Display an account\n\n");
+        printf("\t3. Update an account\n\n");
+        printf("\t4. Disable /  Enable account \n\n");
+        printf("\t5. Log out\n");
         yellow();
-        printf("\n\n*******************************************************\n\n");
+        printf("\n\n********************************************************\n\n");
         color_reset();
         choice = getch();
         system("cls");
@@ -329,7 +376,13 @@ void admin_main_page()
                 update_account(account_number);
                 break;
 
-            case '4':// Quit page
+            case '4':// Disable and enable client
+                system("clear"); 
+                disable_or_enable_account();
+                unix_getch();
+                break;
+
+            case '5':// Quit page
                 system("cls");
                 yellow();
                 printf("Thank you! Goodbye.\n");

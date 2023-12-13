@@ -19,6 +19,7 @@ int get_city_id();
 char* get_security_question();
 void display_client_profile(Client *client);
 char* get_password();
+int account_closure(Client* client);
 Client* get_client_by_cin(char* cin);
 Client* get_client_by_email(char* email);
 Client* get_client_by_account(int account_number);
@@ -231,6 +232,22 @@ char* get_password(){
     enableEcho();
     *(password+i)='\0';
     return password;
+}
+
+// Returns 1 if the account is closed else 0
+int disable_account(Client* client){
+    Client* update = (Client*)malloc(sizeof(Client));
+    *update = *client;
+    update->account_status = 0; 
+    return update_client_in_file(*client,*update);
+}
+
+// Returns 1 if the account is enabled else 0
+int enable_account(Client* client){
+    Client* update = (Client*)malloc(sizeof(Client));
+    *update = *client;
+    update->account_status = 1; 
+    return update_client_in_file(*client,*update);
 }
 
 // Returns a client if a client has the corresponding cin exists else returns NULL
