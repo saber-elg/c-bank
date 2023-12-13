@@ -50,6 +50,7 @@ void hide_cursor () {
 void start (){
   system("cls");
     yellow();
+    printf("\n\n");
     printf("_________          ___.                  __ \n");
     printf("\\_   ___ \\         \\_ |__ _____    ____ |  | __\n");
     printf("/    \\  \\/   ______ | __ \\__  \\  /    \\|  |/ /\n");
@@ -57,7 +58,8 @@ void start (){
     printf(" \\______  /         |___  ____  /___|  /__|_ \\\n");
     printf("        \\/              \\/     \\/     \\/     \\/\n\n");
     color_reset();
-    Sleep(150);
+    Sleep(750);
+    printf("\n\n");
     loading();
 }
 

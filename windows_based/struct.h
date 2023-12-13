@@ -11,6 +11,7 @@ typedef struct security_qa{
 }Security_Qa;
 
 typedef struct client{
+    int account_status; // 0 if banned 1 if active
     int account_number;
     char first_name[FIRST_NAME_LENGHT];
     char last_name[LAST_NAME_LENGHT];  

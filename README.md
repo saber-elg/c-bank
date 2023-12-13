@@ -2,7 +2,8 @@
 C-bank  is a Bank Account Management System in C, a console-based application designed to efficiently manage and perform basic operations on bank accounts. The project incorporates features such as account creation, deposit, withdrawal, balance inquiry, and account closure. Users can create new accounts, deposit funds into their accounts, withdraw money, check their account balances, and close their accounts if needed.
 
 Key Features:
-1. Account Creation: Users can create new bank accounts by providing essential information such as account holder name, account type, initial deposit amount, etc.
+
+1. Account Creation: Users can submit a creation new bank account creation by providing essential information such as account holder name, email, etc.
 
 2. Deposit Operation: Account holders can deposit funds into their accounts, specifying the amount they wish to add. The system updates the account balance accordingly.
 

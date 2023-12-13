@@ -29,21 +29,27 @@ void admin_or_client(){
             files_initialisation();
         }
         yellow();
-        printf("*********************  c-bank  *********************\n\n");
+        printf("************************ C-bank ***********************\n\n");
         color_reset();
-        printf("\n\t(1)    I am a client\n\n");
-        printf("\t(2)    I am an administrator\n\n");
-        printf("\t(3)    Shut down");
+        printf("\n\t(1)  I am a client\n\n");
+        printf("\t(2)  I am an administrator\n\n");
+        printf("\t(3)  Shut down\n\n");
+        yellow();
+        printf("\n********************************************************\n\n");
+        color_reset();
         char choice = getch();
         while((choice != '1') && (choice != '2') && (choice != '3'))
         {
             system("cls");
             yellow();
-            printf("*********************  c-bank  *********************\n\n");
+            printf("************************ C-bank *************************\n\n");
             color_reset();
-            printf("\n(1)    I am a client\n\n");
-            printf("(2)    I am an administrator\n\n");
-            printf("(3)    Shut down");
+            printf("\n(1)  I am a client\n\n");
+            printf("(2)  I am an administrator\n\n");
+            printf("(3)  Shut down\n\n");
+            yellow();
+            printf("\n*******************************************************\n\n");
+            color_reset();
             choice = getch();
         }
         system("cls");
@@ -61,7 +67,6 @@ void admin_or_client(){
                             system("cls");
                             printf("\n\n\n\n\n");
                             blue();
-                            printf("Invalid Username or password ! Retry\n");
                             color_reset();
                             getch();
                             system("cls");

@@ -2,8 +2,9 @@
 
 #ifndef SET_CONST_H  // Include guard to prevent multiple inclusion
 #define SET_CONST_H
-#define PATH_CLIENT_BIN_FILE "/Users/mohamed-saber/Desktop/c-bank/clients.bin"
-#define PATH_STAGING_CLIENT_BIN_FILE "/Users/mohamed-saber/Desktop/c-bank/staging_clients.bin"
+#define PATH__APP_FOLDER "/Users/mohamed-saber/Desktop/c-bank/"
+#define PATH_CLIENT_BIN_FILE PATH__APP_FOLDER"unix_based/client.bin"
+#define PATH_STAGING_CLIENT_BIN_FILE PATH__APP_FOLDER"unix_based/staging_clients.bin"
 #define MAX_PASSWORD_LENGTH 20
 #define MIN_PASSWORD_LENGTH 8
 #define HASH_LENGHT 20

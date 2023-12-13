@@ -39,9 +39,12 @@ void accept_account_creation_requests(){
     // Process each client in the requests file
     if (staging_file_length()==0)
     {
-        printf("************** Account Creation Requests **************\n\n");
         yellow();
-        printf("No pending request.");
+        printf("********************* Creation Requests *********************\n\n\n");
+        color_reset();
+        printf("                     No pending request.\n\n\n");
+        yellow();
+        printf("***************************************************************\n\n");
         color_reset();
         unix_getch();
     }
@@ -50,7 +53,7 @@ void accept_account_creation_requests(){
         Client *client = (Client*)malloc(sizeof(Client));
         for (int i = 1; i <= staging_file_length(); i++) 
         {
-            printf("************** Account Creation Requests **************\n\n");
+            printf("********************* Creation Requests **********************\n\n");
             fread(client, sizeof(Client), 1, staging_file);
             FILE* client_file = fopen(PATH_CLIENT_BIN_FILE, "ab");
             if (client_file == NULL) {
@@ -66,24 +69,36 @@ void accept_account_creation_requests(){
                 char choice; 
                 client->account_number = client->city_id * 10000000 + client_file_length();
                 display_client_profile(client);
-                puts("\n\n1. Accept \t\t 2. Decline");
+                green();
+                printf("  1. Accept");
+                red();
+                printf("\t\t\t\t\t   2. Decline");
+                color_reset();
                 while(((choice = unix_getch()) != '1') && (choice != '2'))
                 {
                     system("clear");
                     display_client_profile(client);
-                    puts("1. Accept \t\t 2. Decline");
+                    green();
+                    printf("  1. Accept");
+                    red();
+                    printf("\t\t\t\t\t   2. Decline");
+                    color_reset();
                 }
                 system("clear");
                 switch (choice)
                 {
                 case '1':
                     fwrite(client, sizeof(Client), 1, client_file);
+                    green();
                     printf("%s %s request has been approved.\n",client->first_name, client->last_name);
+                    color_reset();
                     unix_getch();
                     break;
                 
                 case '2':
+                    red();
                     printf("%s %s request has been declined.\n", client->first_name, client->last_name); 
+                    color_reset();
                     unix_getch();
                     break;
 
@@ -93,7 +108,9 @@ void accept_account_creation_requests(){
             } 
             else 
             {
+                blue();
                 printf("\n\n\t%s %s already exists.", client->first_name, client->last_name);
+                color_reset();
                 unix_getch();
             }
             system("clear");
@@ -131,12 +148,15 @@ void find_client_option()
         char *cin=(char*)malloc(MAX_CIN_LENGHT);
         char* email=(char*)malloc(MAX_EMAIL_LENGHT);
         system("clear");
-        printf("******************* Find Client ********************\n\n");
+        yellow();
+        printf("********************** Find Client ************************\n\n");
+        color_reset();
         printf("Search options :\n\n");
         printf("\t\t1. Account number\n");
         printf("\t\t2. CIN\n");
         printf("\t\t3. Email\n\n");
-        printf("0. Return");
+        printf("0. Return\n\n");
+        printf("***********************************************************\n\n");
         choice = unix_getch();
         system("clear");
         switch (choice)
@@ -188,23 +208,25 @@ int update_account(int account_number)
     system("clear");
     if(user == NULL)
     { 
+        red();
         printf("Client not found.\n");
+        color_reset();
         unix_getch();
     }
     else
     { 
         red();
-        printf("******************     Update Account     ******************\n");
+        printf("*********************** Update Account ************************\n");
         color_reset();
         Client *update=(Client*)malloc(sizeof(Client));
         update = user;
-        printf("First Name       :    ");
+        printf("   First Name       :    ");
         fgets_no_newline_return(update->first_name,FIRST_NAME_LENGHT);
-        printf("Last Name        :    ");
+        printf("   Last Name        :    ");
         fgets_no_newline_return(update->last_name,LAST_NAME_LENGHT);
-        printf("CIN              :    ");
+        printf("   CIN              :    ");
         fgets_no_newline_return(update->CIN, MAX_CIN_LENGHT);
-        printf("Email            :    ");
+        printf("   Email            :    ");
         fgets_no_newline_return(update->email, MAX_EMAIL_LENGHT);
         strcpy(update->password,create_num_password());
         system("clear");
@@ -241,16 +263,65 @@ int update_account(int account_number)
     return 0;
 }
 
+// Disable or enable account options
+void disable_or_enable_account(){
+    printf("********************* Disable / Enable **********************\n\n");
+    printf("  Enter the account number    :     ");
+    int account_number;
+    scanf("%d",&account_number);
+    system("clear");
+    unix_getch();
+    display_client_profile(get_client_by_account(account_number));
+    char choice;
+    green();
+    printf("  1. Enable");
+    red();
+    printf("                                      2. Disable\n");
+    color_reset();
+    choice = unix_getch();
+    system("clear");
+    switch (choice)
+    {
+    case '1':
+        if (get_client_by_account(account_number) != NULL)
+        {
+            enable_account(get_client_by_account(account_number));
+            green();
+            printf("Account has been activated\n");
+            color_reset();
+            unix_getch();
+        }
+        break;
+    
+    case '2':
+        if (get_client_by_account(account_number) != NULL)
+        {
+            disable_account(get_client_by_account(account_number));
+            red();
+            printf("Account has been closed\n");
+            color_reset();
+            unix_getch();
+        }
+        break;
+
+    default:
+        break;
+    }  
+    system("clear");
+}
+
 // Returns 1 if the admin is well logged else it returns 0
 int admin_login(){
     
     system("clear");
-    printf("***************** Authentification *****************\n\n\n");
+    yellow();
+    printf("********************* Authentification *********************\n\n\n");
+    color_reset();
     char* username=malloc(10);
     char* password=malloc(MAX_PASSWORD_LENGTH);
-    printf("Username      :   ");
+    printf("   Username      :   ");
     fgets_no_newline_return(username,10);
-    printf("\n\nPassword      :   ");
+    printf("\n   Password      :   ");
     password=get_password();
     if((!strcmp(username,"admin")) && (!strcmp(password,"admin")))
     {
@@ -270,11 +341,17 @@ void admin_main_page()
         system("clear");
         char choice;
         int account_number;
-        printf("\n***************** Admin space ******************\n\n");
-        printf("\t1. Account requests.\n");
-        printf("\t2. Display a client.\n");
-        printf("\t3. Update a client.\n");
-        printf("\t4. Log out");
+        yellow();
+        printf("\n********************* Admin Space **********************\n\n\n");
+        color_reset();
+        printf("\t1. Account requests\n\n");
+        printf("\t2. Display an account\n\n");
+        printf("\t3. Update an account\n\n");
+        printf("\t4. Disable /  Enable account\n\n");
+        printf("\t5. Log out\n");
+        yellow();
+        printf("\n\n********************************************************\n\n");
+        color_reset();
         choice = unix_getch();
         system("clear");
         switch (choice) 
@@ -288,18 +365,31 @@ void admin_main_page()
                 find_client_option();
                 break;
 
-            case '3':  // Create client
+            case '3':  // Update client
                 system("clear"); 
-                printf("Enter the account number  :   ");
+                yellow();
+                printf("******************* Client Update ********************\n\n");
+                color_reset();
+                printf("   Enter the account number  :   ");
                 scanf("%d",&account_number);
                 unix_getch();
                 update_account(account_number);
                 break;
 
-            case '4':// Quit page
+            case '4':  // Disable and enable client
+                system("clear"); 
+                disable_or_enable_account();
+                unix_getch();
+                break;
+
+            case '5':// Quit page
                 system("clear");
+                yellow();
                 printf("Thank you! Goodbye.");
-                sleep(1);
+                color_reset();
+                fflush(stdout);
+                sleep(2);
+                system("clear");
                 return;
 
             default:
@@ -313,3 +403,4 @@ void admin_main_page()
 }
 
 #endif
+
