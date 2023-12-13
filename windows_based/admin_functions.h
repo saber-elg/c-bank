@@ -36,9 +36,12 @@ void accept_account_creation_requests(){
     // Process each client in the requests file
     if (staging_file_length()==0)
     {
-        printf("************** Account Creation Requests **************\n\n");
         yellow();
-        printf("\n\n\n\t\tNo pending request.");
+        printf("********************** Creation Requests **********************\n\n");
+        color_reset();
+        printf("                      No pending request.");
+        yellow();
+        printf("***************************************************************\n\n");
         color_reset();
         getch();
     }
@@ -47,7 +50,7 @@ void accept_account_creation_requests(){
         Client *client = (Client*)malloc(sizeof(Client));
         for (int i = 1; i <= staging_file_length(); i++) 
         {
-            printf("************** Account Creation Requests **************\n\n");
+            printf("********************** Creation Requests **********************\n\n");
             fread(client, sizeof(Client), 1, staging_file);
             FILE* client_file = fopen(PATH_CLIENT_BIN_FILE, "ab");
             if (client_file == NULL) {
@@ -63,23 +66,35 @@ void accept_account_creation_requests(){
                 char choice; 
                 client->account_number = client->city_id * 10000000 + client_file_length();
                 display_client_profile(client);
-                puts("\n\n1. Accept \t\t 2. Decline");
+                green();
+                printf("  1. Accept");
+                red();
+                printf("\t\t\t\t\t   2. Decline");
+                color_reset();
                 while(((choice = getch()) != '1') && (choice != '2'))
                 {
                     system("cls");
                     display_client_profile(client);
-                    puts("1. Accept \t\t 2. Decline");
+                    green();
+                    printf("  1. Accept");
+                    red();
+                    printf("\t\t\t\t\t   2. Decline");
+                    color_reset();
                 }
                 system("cls");
                 switch (choice)
                 {
                 case '1':
                     fwrite(client, sizeof(Client), 1, client_file);
+                    green();
                     printf("%s %s request has been approved.\n",client->first_name, client->last_name);
-                    getch();
+                    color_reset();
+                    getchar();
                     break;
                 case '2':
+                    red();
                     printf("%s %s request has been declined.\n", client->first_name, client->last_name); 
+                    color_reset();
                     getch();
                     break;
 
@@ -113,7 +128,7 @@ void free_request_file() {
         printf("Error opening file");
         getch();
         system("cls");
-        printf("Shutting down.");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     // Close the file after clearing its content
@@ -129,13 +144,15 @@ Client* find_client_option()
         char *cin=(char*)malloc(MAX_CIN_LENGHT);
         char* email=(char*)malloc(MAX_EMAIL_LENGHT);
         system("cls");
-        printf("******************* Find Client ********************\n\n");
+        yellow()
+        printf("********************* Find Client ***********************\n\n");
+        color_reset();
         printf("Search options :\n\n");
         printf("\t\t1. Account number\n");
         printf("\t\t2. CIN\n");
         printf("\t\t3. Email\n\n");
-        printf("0. Return");
-        choice = getch();
+        printf("0. Return\n\n");
+        printf("***********************************************************\n\n");        choice = getch();
         system("cls");
         switch (choice)
         {
@@ -191,7 +208,7 @@ int update_account(int account_number)
     system("clear");
     if(user == NULL)
     { 
-        blue();
+        red();
         printf("Client not found.\n");
         color_reset();
         getch();
@@ -199,16 +216,17 @@ int update_account(int account_number)
     else
     { 
         red();
-        printf("******************     Update Account     ******************\n");
+        printf("*********************** Update Account ************************\n");
         color_reset();
         Client* update=(Client*)malloc(sizeof(Client));
-        printf("First Name       :    ");
+        update = user;
+        printf("   First Name       :    ");
         fgets_no_newline_return(update->first_name,FIRST_NAME_LENGHT);
-        printf("Last Name        :    ");
+        printf("   Last Name        :    ");
         fgets_no_newline_return(update->last_name,LAST_NAME_LENGHT);
-        printf("CIN              :    ");
+        printf("   CIN              :    ");
         fgets_no_newline_return(update->CIN, MAX_CIN_LENGHT);
-        printf("Email            :   ");
+        printf("   Email            :   ");
         fgets_no_newline_return(update->email, MAX_EMAIL_LENGHT);
         strcpy(update->password,create_num_password());
         system("cls");
@@ -250,12 +268,14 @@ int update_account(int account_number)
 int admin_login(){
     
     system("cls");
-    printf("***************** Authentification *****************\n\n\n");
+    yellow();
+    printf("********************* Authentification *********************\n\n\n");
+    color_reset();
     char* username=malloc(10);
     char* password=malloc(MAX_PASSWORD_LENGTH);
-    printf("Username      :   ");
+    printf("   Username      :   ");
     scanf("%s",username);
-    printf("\n\nPassword      :   ");
+    printf("\n   Password      :   ");
     password = get_password();
     if((!strcmp(username,"admin")) && (!strcmp(password,"admin")))
     {
@@ -275,11 +295,16 @@ void admin_main_page()
         system("cls");
         char choice;
         int account_number;
-        printf("\n***************** Admin space ****************\n\n");
-        printf("\t1. Account requests.\n");
-        printf("\t2. Display a client.\n");
-        printf("\t3. Update a client.\n");
-        printf("\t4. Log out");
+        yellow();
+        printf("\n******************** Admin Space *******************\n\n\n");
+        color_reset();
+        printf("\t1. Account requests\n\n");
+        printf("\t2. Display a client\n\n");
+        printf("\t3. Update a client\n\n");
+        printf("\t4. Log out\n");
+        yellow();
+        printf("\n\n*******************************************************\n\n");
+        color_reset();
         choice = getch();
         system("cls");
         switch (choice) 
@@ -295,7 +320,10 @@ void admin_main_page()
 
             case '3':// Create client
                 system("cls"); 
-                printf("Enter the account number  :   ");
+                yellow();
+                printf("******************* Client Update ********************\n\n");
+                color_reset();
+                printf("   Enter the account number  :   ");
                 scanf("%d",&account_number);
                 getch();
                 update_account(account_number);
@@ -303,8 +331,12 @@ void admin_main_page()
 
             case '4':// Quit page
                 system("cls");
+                yellow();
                 printf("Thank you! Goodbye.\n");
-                Sleep(1500);
+                color_reset();
+                fflush(stdout);
+                Sleep(2000);
+                system("clear");
                 return;
 
             default:

@@ -28,13 +28,15 @@ void client_main_page(Client* client);
 // Returns 1 if the client is well created and saved into the staging file and 0 if it encounter a problem.
 int request_client_account_creation() {
     system("clear");
-    printf("******************     Create an account      ******************\n\n");
+    yellow();
+    printf("********************** Account Creation ***********************\n\n");
+    color_reset();
     Client *client=(Client*)malloc(sizeof(Client));
-    printf("First Name       :    ");
+    printf("  First Name       :    ");
     fgets_no_newline_return(client->first_name,FIRST_NAME_LENGHT);
-    printf("Last Name        :    ");
+    printf("  Last Name        :    ");
     fgets_no_newline_return(client->last_name,LAST_NAME_LENGHT);
-    printf("CIN              :    ");
+    printf("  CIN              :    ");
     fgets_no_newline_return(client->CIN, MAX_CIN_LENGHT);
 
     //verifiying whether another account already exist with this CIN or not.
@@ -46,7 +48,7 @@ int request_client_account_creation() {
         unix_getch();
         return 0;
     }
-    printf("Email            :    ");
+    printf("  Email            :    ");
     fgets_no_newline_return(client->email, MAX_EMAIL_LENGHT);
 
     //verifiying whether another account already exist with this email or not.
@@ -65,11 +67,17 @@ int request_client_account_creation() {
     client->city_id = get_city_id();
     client->balance=0;
     system("clear");
-    printf("******************     Profile      *******************\n\n");
-    printf("Account Holder   :  %s %s\n",client->first_name,client->last_name);
-    printf("Account CIN      :  %s\n",client->CIN);
-    printf("Account E-mail   :  %s",client->email);
-    printf("\n\nAccount informations saved, are you sure you want to create this account! [y/n]  :  ");
+    yellow();
+    printf("************************ Account Creation ************************\n\n");
+    color_reset();
+    printf("               Account Holder   :  %s %s\n\n",client->first_name,client->last_name);
+    printf("               Account CIN      :  %s\n\n",client->CIN);
+    printf("               Account E-mail   :  %s\n\n",client->email);
+    yellow();
+    printf("******************************************************************\n\n\n");
+    green();
+    printf("Account informations saved, are you sure you want to create this account! [y/n]  :  ");
+    color_reset();
     char answer;
     answer = unix_getch();
     while ((answer != 'y')&&(answer != 'n')&&(answer != 'Y')&&(answer != 'N'))
@@ -102,13 +110,15 @@ int request_client_account_creation() {
 // Returns the logged client else if the authentification encounters a problem it returns a NULL.
 Client* client_authentification() {
     system("clear");
-    printf("\t\t******************** Authentification **********************\n\n\n");
+    yellow();
+    printf("******************** Authentification **********************\n\n\n");
+    color_reset();
     int account_number;
     char password[MAX_PASSWORD_LENGTH+1];
-    printf("Account Number    :   ");
+    printf("   Account Number    :   ");
     scanf("%d",&account_number);
     unix_getch();
-    printf("\nPassword          :   ");
+    printf("\n   Password          :   ");
     disableEcho();
     fgets_no_newline_return(password,MAX_PASSWORD_LENGTH);
     enableEcho();
@@ -120,7 +130,7 @@ Client* client_authentification() {
         perror("Error opening clients file while login");
         unix_getch();
         system("clear");
-        printf("Shutting down . . .\n");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     else
@@ -168,8 +178,10 @@ int forgot_password() {
     int account_number;
     Client* client=malloc(sizeof(Client));
     system("clear");
-    printf("\n***************** Forgot Password ******************\n\n\n");
-    printf("Account number      :    ");
+    yellow();
+    printf("\n******************* Forgot Password *********************\n\n\n");
+    color_reset();
+    printf("   Account number      :    ");
     scanf("%d",&account_number);
     client=get_client_by_account(account_number);
 
@@ -180,13 +192,15 @@ int forgot_password() {
             char* answer = (char*)malloc(SEC_ANSWER_LENGHT*sizeof(char));
             printf("\n%s\n\n",client->security.question);
             unix_getch();
-            printf("Answer    :  ");
+            printf("   Answer    :  ");
             fgets_no_newline_return(answer,SEC_ANSWER_LENGHT);
             if (strcmp(answer, client->security.answer) == 0) 
             {
                 // valid answer
                 system("clear");
-                printf("\n***************** Forgot Password ******************\n\n\n");
+                yellow();
+                printf("\n******************** Reset Password *********************\n\n\n");
+                color_reset();
                 char* new_password=(char*)malloc(MAX_PASSWORD_LENGTH*sizeof(char));
                 strcpy(new_password,create_num_password());
                 if (update_password(account_number,new_password) == 1) 
@@ -213,31 +227,40 @@ int make_transfer(Client *sender) {
     Client* update_receiver=(Client*)malloc(sizeof(Client));
     double transfer_amount;
     int account_number;
-    printf("****************** Transfer ********************\n\n");
+    yellow();
+    printf("\n******************** Transfer ********************\n\n\n");
+    color_reset();
     printf("Enter the destination account number  : ");
     scanf("%d", &account_number);
     unix_getch();
     while(get_client_by_account(account_number)==NULL)
     {
         system("clear");
+        blue();
         printf("Unsuccessful operation! The entred account does not exist!");
+        color_reset();
         unix_getch();
         system("clear");
+        yellow();
+        printf("\n******************** Transfer ********************\n\n\n\n");
+        color_reset();
         printf("Enter the destination account number  : ");
         scanf("%d", &account_number);
         unix_getch();
     }
     *receiver = *get_client_by_account(account_number);
-    printf("Enter the transfer amount   :   ");
+    printf("\n   Enter the transfer amount   :   ");
     scanf("%lf", &transfer_amount);
     while (transfer_amount<=0)
     {
         unix_getch();
+        red();
         printf("Invalid amount.");
+        color_reset();
         getchar();
         clearLine();
         clear_nprevious_lines(2);
-        printf("Enter the transfer amount   :   ");
+        printf("   Enter the transfer amount   :   ");
         scanf("%lf", &transfer_amount);
     }
     if (transfer_amount<=sender->balance)
@@ -262,7 +285,7 @@ int make_transfer(Client *sender) {
     else
     { 
         system("clear");
-        blue();
+        red();
         printf("Unsuccessful operation, your balance is  insufficient."); 
         color_reset();
         unix_getch();
@@ -275,7 +298,9 @@ int make_deposit(Client *client) {
     double deposit_amount;
     Client* temp=(Client*)malloc(sizeof(Client));
     *temp=*client;
-    printf("****************** Deposit ********************\n\n");
+    yellow();
+    printf("******************** Deposit *********************\n\n\n");
+    color_reset();
     printf("Enter the deposit amount     :     ");
     scanf("%lf", &deposit_amount);
     temp->balance += deposit_amount;
@@ -301,7 +326,9 @@ int make_withdrawal(Client *client) {
     double withdrawal_amount;
     Client* temp=(Client*)malloc(sizeof(Client));
     *temp=*client;
-    printf("****************** Withdrawal ********************\n\n");
+    yellow();
+    printf("\n******************* Withdrawal ********************\n\n\n");
+    color_reset();
     printf("Enter the withdrawal amount  :     ");
     scanf("%lf", &withdrawal_amount);
     if (withdrawal_amount > client->balance) 
@@ -336,10 +363,12 @@ int make_withdrawal(Client *client) {
 void check_account_creation_status(){
     char* cin = (char*)malloc(sizeof(char)*MAX_CIN_LENGHT);
     char* password = (char*)malloc(sizeof(char)*MAX_PASSWORD_LENGTH);
-    printf("***************** Account Creation Status *****************\n\n\n");
-    printf("CIN             :     ");
+    yellow();
+    printf("\n***************** Account Creation Status *****************\n\n\n");
+    color_reset();
+    printf("   CIN             :     ");
     fgets_no_newline_return(cin,MAX_CIN_LENGHT);
-    printf("\nPassword        :      ");
+    printf("\n   Password        :      ");
     disableEcho();
     fgets_no_newline_return(password,MAX_PASSWORD_LENGTH);
     enableEcho();
@@ -407,12 +436,17 @@ void client_login_page(){
         system("clear");
         Client* user=(Client*)malloc(sizeof(Client));
         char choice;
+        yellow();
         printf("\n****************** Client Space *******************\n\n\n");
-        printf("\t1. Log in\n");
-        printf("\t2. Sign up\n");
-        printf("\t3. Request status\n");
-        printf("\t4. Forgot password\n");
-        printf("\t5. Quit");
+        color_reset();
+        printf("\t1. Log in\n\n");
+        printf("\t2. Sign up\n\n");
+        printf("\t3. Request status\n\n");
+        printf("\t4. Forgot password\n\n");
+        printf("\t5. Quit\n\n");
+        yellow();
+        printf("\n***************************************************\n\n");
+        color_reset();
         choice=unix_getch();
         system("clear");
         switch (choice) 
@@ -423,7 +457,7 @@ void client_login_page(){
                     if(user == NULL)
                     {   
                         printf("\n\n\n");
-                        blue();
+                        red();
                         printf("Invalid Account_number or password ! Retry.\n");
                         color_reset();
                         unix_getch();
@@ -451,7 +485,7 @@ void client_login_page(){
                 }
                 else
                 {
-                    blue();
+                    red();
                     printf("\nInvalid answer! Password reset canceled.");
                     color_reset();
                 } 
@@ -461,10 +495,10 @@ void client_login_page(){
             case '5':// Quit page
                 system("clear");
                 yellow();
-                printf("\n\n\tThank you! Goodbye.");
+                printf("Goodbye . . .\n");
                 color_reset();
                 fflush(stdout);
-                sleep(2);
+                sleep(1);
                 return;
 
             default:
@@ -481,13 +515,18 @@ void client_main_page(Client *client){
     {
         system("clear");
         char choice;
-        printf("\n*************** Welcome, %s %s ****************\n\n", client->first_name, client->last_name);
-        printf("\t1. Profile\n"); 
-        printf("\t2. Deposit\n");
-        printf("\t3. Withdrawal\n");
-        printf("\t4. Transfer\n");
-        printf("\t5. Check balance\n");
-        printf("\t6. Log out");
+        yellow();
+        printf("\n******************* Account Sapace *********************\n\n\n");
+        color_reset();
+        printf("\t1. Profile\n\n"); 
+        printf("\t2. Deposit\n\n");
+        printf("\t3. Withdrawal\n\n");
+        printf("\t4. Transfer\n\n");
+        printf("\t5. Check balance\n\n");
+        printf("\t6. Log out\n\n");
+        yellow();
+        printf("\n********************************************************\n\n");
+        color_reset();
         choice=unix_getch();
         system("clear");
         switch (choice) {
@@ -512,10 +551,15 @@ void client_main_page(Client *client){
                 break;
 
             case '5':// Balance inquiry
-                printf("****************** Balance ******************\n\n");
-                printf("Account Number       :   %d\n",client->account_number);
-                printf("Account Holder       :   %s %s\n",client->first_name,client->last_name);
-                printf("Your account balance :   %.2f\n", client->balance);
+                yellow();
+                printf("*********************** Balance ***********************\n\n\n");
+                color_reset();
+                printf("      Account Number       :   %d\n\n",client->account_number);
+                printf("      Account Holder       :   %s %s\n\n",client->first_name,client->last_name);
+                printf("      Your account balance :   %.2f\n", client->balance);
+                yellow();
+                printf("\n\n*******************************************************\n\n");
+                color_reset();
                 unix_getch();
                 break;
 
@@ -527,7 +571,7 @@ void client_main_page(Client *client){
                 return;
 
             default:
-                yellow();
+                red();
                 printf("Invalid choice. Please enter a valid number.\n");
                 color_reset();
                 unix_getch();

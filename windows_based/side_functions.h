@@ -41,7 +41,7 @@ int push_to_request_file(Client client){
         printf("Error opening file while saving the client");
         getch();
         system("cls");
-        printf("Shutting down.");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     else
@@ -56,7 +56,7 @@ int push_to_request_file(Client client){
 // Returns a numeric password as a string without showing thw password while typing.
 char* create_num_password() {
     char* password = (char*)malloc((MAX_PASSWORD_LENGTH ) * sizeof(char));                                     
-    printf("Enter password   :   ");
+    printf("  Enter password   :   ");
     char ch;
     int i = 0;
     while ((ch = getch()) != 13 && i<MAX_PASSWORD_LENGTH) {
@@ -92,8 +92,7 @@ char* create_num_password() {
 int get_city_id(){
     while(1){
         system("cls");
-        printf(" Chose Your City\n\n");
-        printf(" ----------------------------------------------------------\n");
+        printf(" -------------------- Chose Your City ---------------------\n\n");
         printf("\t 1.  Los Angeles                                         \n");
         printf("\t 2.  Chicago                                             \n");
         printf("\t 3.  Houston                                             \n");
@@ -102,7 +101,7 @@ int get_city_id(){
         printf("\t 6.  Houston                                             \n");
         printf("\t 7.  Dallas                                              \n");
         printf("\t 8.  Miami                                               \n");
-        printf("\t 9.  Phoenix                                             \n");
+        printf("\t 9.  Phoenix                                             \n\n");
         printf(" ----------------------------------------------------------\n");
         char choice = getch();
         switch (choice)
@@ -145,22 +144,24 @@ char* get_security_question(){
     while(1)
     {
         system("cls");
-        printf(" Chose Your Security Question\n\n");
-        printf(" ----------------------------------------------------------\n");
+        printf(" ----------------------- Security Question -------------------------\n\n");
         printf("\t 1. What is the first name of your oldest cousin?       \n");
         printf("\t 2. What is your favorite food?                         \n");
-        printf("\t 3. Where did you go on your favorite vacation?         \n");
-        printf(" ----------------------------------------------------------\n");
+        printf("\t 3. Where did you go on your favorite vacation?         \n\n");
+        printf(" -------------------------------------------------------------------\n\n\n");
         char choice = getch();
         switch (choice)
         {
             case '1':
+                system("cls");
                 return("What is the first name of your oldest cousin?");
 
             case '2':
+                system("cls")
                 return("What is your favorite food?");
 
             case '3':
+                system("cls")
                 return("Where did you go on your favorite vacation?");
 
             default:
@@ -175,16 +176,23 @@ void display_client_profile(Client *client){
     system("cls");
     if (client==NULL)
     {
+        red();
         puts("This client does not exists.");
+        color_reset();
         getch();
     }
     else
     {
-        printf("******************     Account Profile      *******************\n\n");
-        printf("Account Number   :  %d\n\n",client->account_number);
-        printf("Account Holder   :  %s %s\n\n",client->first_name,client->last_name);
-        printf("Account CIN      :  %s\n\n",client->CIN);
-        printf("Account E-mail   :  %s\n\n",client->email);
+        yellow();
+        printf("********************** Account Profile ***********************\n\n");
+        color_reset();
+        printf("             Account Number   :  %d\n",client->account_number);
+        printf("             Account Holder   :  %s %s\n",client->first_name,client->last_name);
+        printf("             Account CIN      :  %s\n",client->CIN);
+        printf("             Account E-mail   :  %s\n\n",client->email);
+        yellow();
+        printf("**************************************************************\n\n");
+        color_reset();
     }    
 }
 
@@ -204,6 +212,7 @@ char* get_password(){
             }
          continue;
         }
+        red
         printf("*");
         i++;
         
@@ -221,7 +230,7 @@ Client* get_client_by_cin(char* cin){
         printf("Error opening clients file while getting the client by cin.");
         getch();
         system("cls");
-        printf("Shutting down.");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     else
@@ -251,7 +260,7 @@ Client* get_client_by_email(char* email){
         printf("Error opening clients file while getting the client by email.");
         getch();
         system("cls");
-        printf("Shutting down . . .\n");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     else
@@ -280,7 +289,7 @@ Client* get_client_by_account(int account_number){
         perror("Error opening file while getting the client by account.");
         getch();
         system("cls");
-        printf("Shutting down.");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     else
@@ -310,7 +319,7 @@ int find_client_account_position(int account_number) {
         perror("Error opening file while getting the client position.");
         getch();
         system("cls");
-        printf("Shutting down . . .\n");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     else
@@ -337,7 +346,7 @@ Client* get_client_by_position(int pos){
         perror("Error opening file while searching for a client by position.");
         getch();
         system("cls");
-        printf("Shutting down.");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     else
@@ -367,7 +376,7 @@ int client_file_length(){
         perror("Error opening file while counting the file number of elements.");
         getch();
         system("cls");
-        printf("Shutting down . . .\n");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     else
@@ -390,7 +399,7 @@ int staging_file_length(){
         perror("Error opening file while counting the file number of elements.");
         getch();
         system("cls");
-        printf("Shutting down . . . \n");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     else
@@ -411,7 +420,7 @@ int update_client_in_file(Client client,Client update){
         printf("Error opening file while updating the client");
         getch();
         system("cls");
-        printf("Shutting down . . .\n");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     else
@@ -425,12 +434,18 @@ int update_client_in_file(Client client,Client update){
                 return 1;
             }
             else
-            printf("Error while updating the balance.");
-            getch();
+            {
+                red();
+                printf("Error while updating the balance.");
+                color_reset();
+                getch();
+            }
         }
         else
         {
+            blue();
             puts("Client does not esist.");
+            color_reset();
             getch();
         }    
     }
@@ -447,7 +462,7 @@ int update_password(int account_number,  char* new_password)
         perror("Error opening file while changing password.\n");
         getch();
         system("cls");
-        printf("Shutting down . . .\n");
+        shut_down();
         exit(EXIT_FAILURE);
     }
 
@@ -485,7 +500,7 @@ void files_initialisation(){
         printf("Error while initialising clients file.");
         getch();
         system("cls");
-        printf("Shutting down . . .\n");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     FILE* stage_file=fopen(PATH_STAGING_CLIENT_BIN_FILE,"ab");
@@ -494,7 +509,7 @@ void files_initialisation(){
         printf("Error while initialising staging clients file.");
         getch();
         system("cls");
-        printf("Shutting down . . .\n");
+        shut_down();
         exit(EXIT_FAILURE);
     }
     fclose(client_file);

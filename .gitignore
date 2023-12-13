@@ -1,6 +1,9 @@
 .DS_Store
 unix_based/.DS_Store
-.vscode/
-staging_clients.bin
-clients.bin
+vscode
+/unix_based/staging_clients.bin
+
 output
+unix_based/client.bin
+unix_based/output/main.dSYM/Contents/Resources/Relocations/aarch64/main.yml
+unix_based/output/main.dSYM/Contents/Resources/DWARF/main
