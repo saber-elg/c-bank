@@ -135,7 +135,7 @@ Client* client_authentification() {
                 if ((strcmp(password, user->password) == 0))
                 {
                     blue();
-                    logging_in()
+                    logging_in();
                     color_reset();
                     fclose(client_file);
                     return user;
