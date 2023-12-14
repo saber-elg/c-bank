@@ -135,7 +135,7 @@ void free_request_file() {
     fclose(staging_file);
 }
 
-Client* find_client_option()
+void find_client_option()
 {
     while (1)
     {
@@ -144,7 +144,7 @@ Client* find_client_option()
         char *cin=(char*)malloc(MAX_CIN_LENGHT);
         char* email=(char*)malloc(MAX_EMAIL_LENGHT);
         system("cls");
-        yellow()
+        yellow();
         printf("********************* Find Client ***********************\n\n");
         color_reset();
         printf("Search options :\n\n");
@@ -187,7 +187,7 @@ Client* find_client_option()
 
             case '0':
                 system("cls");
-                break;
+                return;
 
             default:
                 yellow();
@@ -327,7 +327,7 @@ int admin_login(){
     {
         system("cls");
         logging_in();
-        system("cls")
+        system("cls");
         return 1;
     }
     return 0;
@@ -379,7 +379,7 @@ void admin_main_page()
             case '4':// Disable and enable client
                 system("clear"); 
                 disable_or_enable_account();
-                unix_getch();
+                getch();
                 break;
 
             case '5':// Quit page

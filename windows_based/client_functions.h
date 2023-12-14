@@ -422,34 +422,16 @@ void check_account_creation_status(){
                 printf("\n\nYour account is closed. Contact admin for help\n");
                 color_reset();
                 getch();
+                return
             }
-            else
-            {
-                printf("\n   Password        :    ");
-                disableEcho();
-                fgets_no_newline_return(password,MAX_PASSWORD_LENGTH);
-                enableEcho();
-                fflush(stdout);
-                if (strcmp(password,user->password) == 0 )
-                {
-                    green();
-                    printf("\n\nYour request is realised! Press any key to display your profile\n");
-                    color_reset();
-                    getch();
-                    system("cls");
-                    display_client_profile(get_client_by_cin(cin));
-                    getch();
-                    system("cls");
-                }
-                else
-                {
-                    red();
-                    printf("\n\nInvalid Password\n");
-                    color_reset();
-                    getch();
-                    system("cls");
-                }
-            }
+            green();
+            printf("Your request is realised! Press any key to display your profile\n");
+            color_reset();
+            getch();
+            system("cls");
+            display_client_profile(get_client_by_cin(cin));
+            getch();
+            system("cls");
             return;
         }
         else
@@ -546,7 +528,7 @@ void client_login_page(){
                 goodbye();
                 color_reset();
                 fflush(stdout);
-                sleep(1000);
+                Sleep(1000);
                 return;
 
             default:

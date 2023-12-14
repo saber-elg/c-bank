@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <conio.h>
 #include <windows.h>
 
 void start();
@@ -55,7 +55,7 @@ void start (){
     printf("\\_   ___ \\         \\_ |__ _____    ____ |  | __\n");
     printf("/    \\  \\/   ______ | __ \\__  \\  /    \\|  |/ /\n");
     printf("\\     \\____ /_____/ | \\_\\ \\/ __ \\|   |  \\    <\n");
-    printf(" \\______  /         |___  (____  /___|  /__|_ \\\n");
+    printf(" \\______  /         |___  ____  /___|  /__|_ \\\n");
     printf("        \\/              \\/     \\/     \\/     \\/\n\n");
     color_reset();
     Sleep(750);
@@ -64,7 +64,7 @@ void start (){
 }
 
 void loading(){
-    loading();
+    printf("Loading ");
     fflush(stdout);
     int count = 0;
     green();
@@ -106,7 +106,7 @@ void shut_down(){
       fflush(stdout);
   } 
   printf("\n");
-  system("clear");
+  system("cls");
   Sleep(1000);
   red();
   printf("\t\t   Developed by :\n\n");
