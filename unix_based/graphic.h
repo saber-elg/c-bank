@@ -10,6 +10,9 @@ void start();
 void loading();
 void processing();
 void shut_down();
+void goodbye();
+void logging_in();
+void logging_out();
 
 void red () {
   printf("\033[1;31m");
@@ -118,6 +121,19 @@ void shut_down(){
   printf(" El  Hadifi  Soukaina");
   color_reset();
   getchar();
+}
+
+void goodbye(){
+  printf("Goodbye ");
+    fflush(stdout);
+    for (int i = 0 ; i < 4 ; i++)
+    {
+        usleep(500000);
+        fputc('.',stdout);
+        fputc(' ',stdout);
+        fflush(stdout);
+    } 
+    printf("\n");
 }
 
 void logging_in(){

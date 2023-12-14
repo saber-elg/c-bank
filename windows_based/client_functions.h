@@ -21,6 +21,7 @@ int forgot_password();
 int make_transfer(Client *sender);
 int make_deposit(Client *client);
 int make_withdrawal(Client *client);
+void check_account_creation_status();
 void client_login_page();
 void client_main_page(Client* client);
 
@@ -314,13 +315,20 @@ int make_transfer(Client *sender) {
 // Returns 1 if the deposit is successfull else it returns 0.
 int make_deposit(Client *client) {
     double deposit_amount;
-    Client* temp=(Client*)malloc(sizeof(Client));
-    *temp=*client;
     yellow();
     printf("******************** Deposit ********************\n\n");
     color_reset();
     printf("   Enter the deposit amount     :     ");
     scanf("%lf", &deposit_amount);
+    if (deposit_amount <= 0)
+    {
+        red();
+        printf("\n Invalid deposit amount.\n");
+        color_reset();
+        return 0;
+    }
+    Client* temp=(Client*)malloc(sizeof(Client));
+    *temp=*client;
     temp->balance += deposit_amount;
     if(update_client_in_file(*client,*temp)==1)
     {
@@ -352,13 +360,20 @@ int make_withdrawal(Client *client) {
     if (withdrawal_amount > client->balance) 
     {
         system("cls");
-        blue();
+        red();
         printf("Unsuccessful operation, your balance is  insufficient.\n");
         color_reset();
         getch();
     }
     else
     {
+        if (withdrawal_amount <= 0)
+        {
+            red();
+            printf("\n Invalid Withdrawal amount.\n");
+            color_reset();
+            return 0;
+        }
         temp->balance -= withdrawal_amount;
         if(update_client_in_file(*client,*temp)==1)
         {
@@ -384,11 +399,8 @@ void check_account_creation_status(){
     yellow();
     printf("\n***************** Account Creation Status *****************\n\n\n");
     color_reset();
-    printf("   CIN             :     ");
+    printf("   CIN             :    ");
     fgets_no_newline_return(cin,MAX_CIN_LENGHT);
-    printf("\n   Password        :      ");
-    fgets_no_newline_return(password,MAX_PASSWORD_LENGTH);
-    system("cls");
     Client* user=(Client*)malloc(sizeof(Client));
     FILE* staging_file = fopen(PATH_STAGING_CLIENT_BIN_FILE, "rb");
     if (staging_file == NULL) 
@@ -401,28 +413,48 @@ void check_account_creation_status(){
     }
     else
     { 
-        if (get_client_by_cin(cin) != NULL)
+        user = get_client_by_cin(cin);
+        if (user != NULL)
         {
-            if (get_client_by_cin(cin)->account_status == 0)
+            if (user->account_status == 0)
             {
                 red();
-                printf("Your account is closed. Contact admin for help\n");
+                printf("\n\nYour account is closed. Contact admin for help\n");
                 color_reset();
                 getch();
-                return
             }
-            green();
-            printf("Your request is realised! Press any key to display your profile\n");
-            color_reset();
-            getch();
-            system("cls");
-            display_client_profile(get_client_by_cin(cin));
-            getch();
-            system("cls");
+            else
+            {
+                printf("\n   Password        :    ");
+                disableEcho();
+                fgets_no_newline_return(password,MAX_PASSWORD_LENGTH);
+                enableEcho();
+                fflush(stdout);
+                if (strcmp(password,user->password) == 0 )
+                {
+                    green();
+                    printf("\n\nYour request is realised! Press any key to display your profile\n");
+                    color_reset();
+                    getch();
+                    system("cls");
+                    display_client_profile(get_client_by_cin(cin));
+                    getch();
+                    system("cls");
+                }
+                else
+                {
+                    red();
+                    printf("\n\nInvalid Password\n");
+                    color_reset();
+                    getch();
+                    system("cls");
+                }
+            }
             return;
         }
         else
         {
+            system("cls");
             for(int i=0 ; i < staging_file_length() ; i++)
             {                 
                 user = (Client*)malloc(sizeof(Client));
@@ -441,14 +473,14 @@ void check_account_creation_status(){
     if (user != NULL)
     {
         blue();
-        printf("\n\nYour request is still in process! Visit us later."); 
-        color_reset();
-
+        printf("Your request is still in process! Visit us later.");
+        color_reset(); 
     }
     else
-    {   blue();
-        printf("\n\n\n\t\tYou have not submitted any request, please try to sign up.");
-        color_reset();  
+    {
+        blue();
+        printf("You have not submitted any request, please try to sign up.");  
+        color_reset();
     }
     getch();
     system("cls");
@@ -511,7 +543,7 @@ void client_login_page(){
             case '5':// Quit page
                 system("cls");
                 yellow(); 
-                printf("Goodbye . . .\n");
+                goodbye();
                 color_reset();
                 fflush(stdout);
                 sleep(1000);
@@ -544,7 +576,8 @@ void client_main_page(Client *client){
         yellow();
         printf("\n***********************************************************\n\n");
         color_reset();
-        char choice = getch();
+        char choice, choice1;
+        choice = getch();
         system("cls");
         switch (choice) {
             case '1':// Profile
@@ -582,14 +615,29 @@ void client_main_page(Client *client){
 
             case '6':// Account closure
                 yellow();
-                printf("********************* Account closure **********************\n\n");
+                printf("************************ Account closure *************************\n\n");
                 color_reset();
-                printf("\n Are you sure you want to continue this operation is critical\n");
                 red();
-                printf("The account has been closed. You can no longer acces to this account\n");
+                printf("\n Are you sure you want to continue. This operation is critical [y/n]\n ");
+                choice1 = unix_getch();
+                while (choice1 != 'y' && choice1 !='Y' && choice1 != 'n' && choice1 !='N')
+                {
+                    choice1 = unix_getch();
+                } 
+                if (choice1 == 'Y' || choice1 == 'y')
+                {
+                    clear_nprevious_lines(2);
+                    disable_account(client);
+                    printf("\nThe account has been closed. You can no longer acces to this account\n");
+                }
+                else
+                {
+                    clear_nprevious_lines(2);
+                    printf("\nOperation canceled\n");
+                }
                 color_reset();
-                getch();
-                system("cls");
+                unix_getch();
+                system("clear");
                 return;
 
             case '7':// Log out

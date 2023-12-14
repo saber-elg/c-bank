@@ -120,6 +120,19 @@ void shut_down(){
   getch();
 }
 
+void goodbye(){
+  printf("Goodbye ");
+    fflush(stdout);
+    for (int i = 0 ; i < 4 ; i++)
+    {
+        usleep(500000);
+        fputc('.',stdout);
+        fputc(' ',stdout);
+        fflush(stdout);
+    } 
+    printf("\n");
+}
+
 void logging_in(){
     printf("Logging in ");
     fflush(stdout);
