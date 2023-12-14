@@ -23,7 +23,6 @@ void admin_main_page();
 
 //accept or decline creation requests one by one and free the staging file
 void accept_account_creation_requests(){
-    
     FILE* staging_file = fopen(PATH_STAGING_CLIENT_BIN_FILE, "rb");
     if (staging_file == NULL) 
     {
@@ -192,7 +191,9 @@ void find_client_option()
                 return;
 
             default:
+                yellow();
                 printf("\nUnexpected answer! Retry.");
+                color_reset();
                 unix_getch();
                 break;
         }
@@ -312,7 +313,6 @@ void disable_or_enable_account(){
 
 // Returns 1 if the admin is well logged else it returns 0
 int admin_login(){
-    
     system("clear");
     yellow();
     printf("********************* Authentification *********************\n\n\n");
@@ -322,8 +322,10 @@ int admin_login(){
     printf("   Username      :   ");
     fgets_no_newline_return(username,10);
     printf("\n   Password      :   ");
-    password=get_password();
-    if((!strcmp(username,"admin")) && (!strcmp(password,"admin")))
+    strcpy(password,get_password());
+    char pass[20]= "admin";
+    encrypt_password(pass);
+    if((!strcmp(username,"admin")) && (!strcmp(password,pass)))
     {
         system("clear");
         logging_in();
@@ -403,4 +405,3 @@ void admin_main_page()
 }
 
 #endif
-

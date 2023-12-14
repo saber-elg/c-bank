@@ -29,7 +29,7 @@ void admin_or_client(){
             files_initialisation();
         }
         yellow();
-        printf("************************ C-bank ***********************\n\n");
+        printf("\n************************ C-bank ***********************\n\n");
         color_reset();
         printf("\n\t(1)  I am a client\n\n");
         printf("\t(2)  I am an administrator\n\n");

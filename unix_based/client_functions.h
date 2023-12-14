@@ -10,9 +10,9 @@
 #include "set_const.h"
 #include "side_functions.h"
 #include "graphic.h"
-//#include <openssl/sha.h>
 
 /*prototyping functions*/
+
 int request_client_account_creation();
 Client* client_authentification();
 int forgot_password();
@@ -22,7 +22,6 @@ int make_withdrawal(Client *client);
 void check_account_creation_status();
 void client_login_page();
 void client_main_page(Client* client);
-
 
 /*Declaring the functions*/
 
@@ -123,9 +122,9 @@ Client* client_authentification() {
     printf("\n   Password          :   ");
     disableEcho();
     fgets_no_newline_return(password,MAX_PASSWORD_LENGTH);
+    encrypt_password(password);
     enableEcho();
     system("clear");
-    // Ouverture du fichier binaire des clients.
     FILE* client_file = fopen(PATH_CLIENT_BIN_FILE, "rb");
     if (client_file == NULL) 
     {
@@ -264,16 +263,17 @@ int make_transfer(Client *sender) {
         yellow();
         printf("\n******************** Transfer ********************\n\n\n\n");
         color_reset();
-        printf("Enter the destination account number  : ");
+        printf("   Enter the destination account number  : ");
         scanf("%d", &account_number);
         unix_getch();
     }
     *receiver = *get_client_by_account(account_number);
     printf("\n   Enter the transfer amount   :   ");
     scanf("%lf", &transfer_amount);
-    while (transfer_amount<=0)
+    while (transfer_amount <= 0 )
     {
         unix_getch();
+        clear_nprevious_lines(2);
         red();
         printf("Invalid amount.");
         color_reset();
@@ -283,7 +283,7 @@ int make_transfer(Client *sender) {
         printf("   Enter the transfer amount   :   ");
         scanf("%lf", &transfer_amount);
     }
-    if (transfer_amount<=sender->balance)
+    if (transfer_amount <= sender->balance)
     {
         *receiver = *get_client_by_account(receiver->account_number);
         *update_sender = *sender;
@@ -323,9 +323,11 @@ int make_deposit(Client *client) {
     scanf("%lf", &deposit_amount);
     if (deposit_amount <= 0)
     {
+        clear_nprevious_lines(2);
         red();
         printf("\n Invalid deposit amount.\n");
         color_reset();
+        unix_getch();
         return 0;
     }
     Client* temp=(Client*)malloc(sizeof(Client));
@@ -370,9 +372,11 @@ int make_withdrawal(Client *client) {
     {
         if (withdrawal_amount <= 0)
         {
+            clear_nprevious_lines(2);
             red();
             printf("\n Invalid Withdrawal amount.\n");
             color_reset();
+            unix_getch();
             return 0;
         }
         temp->balance -= withdrawal_amount;
@@ -398,7 +402,7 @@ void check_account_creation_status(){
     char* cin = (char*)malloc(sizeof(char)*MAX_CIN_LENGHT);
     char* password = (char*)malloc(sizeof(char)*MAX_PASSWORD_LENGTH);
     yellow();
-    printf("\n***************** Account Creation Status *****************\n\n\n");
+    printf("\n****************** Account Creation Status *****************\n\n\n");
     color_reset();
     printf("   CIN             :    ");
     fgets_no_newline_return(cin,MAX_CIN_LENGHT);
@@ -430,6 +434,7 @@ void check_account_creation_status(){
                 disableEcho();
                 fgets_no_newline_return(password,MAX_PASSWORD_LENGTH);
                 enableEcho();
+                encrypt_password(password);
                 fflush(stdout);
                 if (strcmp(password,user->password) == 0 )
                 {
@@ -553,6 +558,7 @@ void client_login_page(){
             default:
                 printf("\n\n\tInvalid choice. Please enter a valid number.");
                 unix_getch();
+                system("clear");
                 system("clear");
                 break;
         }

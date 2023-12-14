@@ -10,7 +10,6 @@
 #include "admin_functions.h"
 #include "graphic.h"
 
-
 /*Prototyping the functions*/
 
 void admin_or_client();

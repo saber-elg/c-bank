@@ -24,5 +24,3 @@ typedef struct client{
 }Client;
 
 #endif
-
-

@@ -11,7 +11,6 @@
 #include "set_const.h"
 #include "side_functions.h"
 #include "graphic.h"
-//#include <openssl/sha.h>
 
 /*prototyping functions*/
 
@@ -24,7 +23,6 @@ int make_withdrawal(Client *client);
 void check_account_creation_status();
 void client_login_page();
 void client_main_page(Client* client);
-
 
 /*Declaring the functions*/
 
@@ -118,13 +116,12 @@ Client* client_authentification() {
     printf("******************** Authentification **********************\n\n\n");
     color_reset();
     int account_number;
-    char password[MAX_PASSWORD_LENGTH+1];
+    char password[MAX_PASSWORD_LENGTH];
     printf("   Account Number    :   ");
     scanf("%d",&account_number);
     printf("\n   Password          :   ");
     strcpy(password,get_password());
     system("cls");
-    // Ouverture du fichier binaire des clients.
     FILE* client_file = fopen(PATH_CLIENT_BIN_FILE, "rb");
     if (client_file == NULL) 
     {
@@ -273,6 +270,7 @@ int make_transfer(Client *sender) {
     while (transfer_amount<=0)
     {
         getch();
+        clear_nprevious_lines(2);
         red();
         printf("Invalid amount.");
         color_reset();
@@ -322,9 +320,11 @@ int make_deposit(Client *client) {
     scanf("%lf", &deposit_amount);
     if (deposit_amount <= 0)
     {
+        clear_nprevious_lines(2);
         red();
         printf("\n Invalid deposit amount.\n");
         color_reset();
+        getch();
         return 0;
     }
     Client* temp=(Client*)malloc(sizeof(Client));
@@ -369,9 +369,11 @@ int make_withdrawal(Client *client) {
     {
         if (withdrawal_amount <= 0)
         {
+            clear_nprevious_lines(2);
             red();
             printf("\n Invalid Withdrawal amount.\n");
             color_reset();
+            getch();
             return 0;
         }
         temp->balance -= withdrawal_amount;
@@ -422,16 +424,34 @@ void check_account_creation_status(){
                 printf("\n\nYour account is closed. Contact admin for help\n");
                 color_reset();
                 getch();
-                return
+                return;
             }
-            green();
-            printf("Your request is realised! Press any key to display your profile\n");
-            color_reset();
-            getch();
-            system("cls");
-            display_client_profile(get_client_by_cin(cin));
-            getch();
-            system("cls");
+            else
+            {
+                printf("\n   Password        :    ");
+                strcpy(password,get_password());
+                fflush(stdout);
+                if (strcmp(password,user->password) == 0 )
+                {
+                    green();
+                    printf("Your request is realised! Press any key to display your profile\n");
+                    color_reset();
+                    getch();
+                    system("cls");
+                    display_client_profile(get_client_by_cin(cin));
+                    getch();
+                    system("cls");
+                    fclose(staging_file);
+                }
+                else
+                {
+                    red();
+                    printf("\n\nInvalid Password\n");
+                    color_reset();
+                    unix_getch();
+                    system("cls");
+                }
+            }
             return;
         }
         else

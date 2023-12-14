@@ -9,6 +9,7 @@
 #include <string.h>
 #include "side_functions.h"
 #include "graphic.h"
+
 /*Prototype of functions*/
 
 void accept_account_creation_requests();
@@ -23,7 +24,8 @@ void admin_main_page();
 //accept or decline creation requests one by one and free the staging file
 void accept_account_creation_requests(){
     FILE* staging_file = fopen(PATH_STAGING_CLIENT_BIN_FILE, "rb");
-    if (staging_file == NULL) {
+    if (staging_file == NULL) 
+    {
         printf("Error opening requests file");
         getch();
         system("cls");
@@ -91,6 +93,7 @@ void accept_account_creation_requests(){
                     color_reset();
                     getchar();
                     break;
+
                 case '2':
                     red();
                     printf("%s %s request has been declined.\n", client->first_name, client->last_name); 
@@ -168,7 +171,6 @@ void find_client_option()
             case '2':        
                 printf("Enter the client CIN    :  ");
                 scanf("%s",cin);
-                getchar();
                 system("cls");
                 display_client_profile(get_client_by_cin(cin));
                 getch();
@@ -178,7 +180,6 @@ void find_client_option()
             case '3':
                 printf("Enter the client Email  :   ");
                 scanf("%s",email);
-                getchar();
                 system("cls");
                 display_client_profile(get_client_by_email(email));
                 free(email);
@@ -312,7 +313,6 @@ void disable_or_enable_account(){
 
 // Returns 1 if the admin is well logged else it returns 0
 int admin_login(){
-    
     system("cls");
     yellow();
     printf("********************* Authentification *********************\n\n\n");
@@ -322,8 +322,10 @@ int admin_login(){
     printf("   Username      :   ");
     scanf("%s",username);
     printf("\n   Password      :   ");
-    password = get_password();
-    if((!strcmp(username,"admin")) && (!strcmp(password,"admin")))
+    strcpy(password,get_password());
+    char pass[20]= "admin";
+    encrypt_password(pass);
+    if((!strcmp(username,"admin")) && (!strcmp(password,pass)))
     {
         system("cls");
         logging_in();

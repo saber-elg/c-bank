@@ -13,6 +13,7 @@
 /*Prototyping the functions*/
 int push_to_request_file(Client client);
 char* create_num_password();
+void encrypt_password(char *password);
 int get_city_id();
 char* get_security_question();
 void display_client_profile(Client *client);
@@ -86,8 +87,18 @@ char* create_num_password() {
         return create_num_password();
     }
     *(password+i) = '\0';  // Null-terminate the password
-    printf("\n"); 
+    printf("\n");
+    encrypt_password(password);
     return password;
+}
+
+// Encypt typed password
+void encrypt_password(char *password) {
+    int length = strlen(password);
+    for (int i = 0; i < length; i++) 
+    {
+        password[i] = ((password[i] - '0' + ENCRYPT_SHIFT) % 10) + '0';
+    }
 }
 
 // Getting the city code for account number creation
@@ -220,6 +231,7 @@ char* get_password(){
         
     }
     *(password + i) = '\0';
+    encrypt_password(password);
     return password;
 }
 
