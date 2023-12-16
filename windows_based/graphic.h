@@ -125,7 +125,7 @@ void goodbye(){
     fflush(stdout);
     for (int i = 0 ; i < 4 ; i++)
     {
-        usleep(500000);
+        Sleep(500);
         fputc('.',stdout);
         fputc(' ',stdout);
         fflush(stdout);

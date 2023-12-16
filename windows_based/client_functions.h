@@ -448,7 +448,7 @@ void check_account_creation_status(){
                     red();
                     printf("\n\nInvalid Password\n");
                     color_reset();
-                    unix_getch();
+                    getch();
                     system("cls");
                 }
             }
@@ -621,10 +621,10 @@ void client_main_page(Client *client){
                 color_reset();
                 red();
                 printf("\n Are you sure you want to continue. This operation is critical [y/n]\n ");
-                choice1 = unix_getch();
+                choice1 = getch();
                 while (choice1 != 'y' && choice1 !='Y' && choice1 != 'n' && choice1 !='N')
                 {
-                    choice1 = unix_getch();
+                    choice1 = getch();
                 } 
                 if (choice1 == 'Y' || choice1 == 'y')
                 {
@@ -638,7 +638,7 @@ void client_main_page(Client *client){
                     printf("\nOperation canceled\n");
                 }
                 color_reset();
-                unix_getch();
+                getch();
                 system("clear");
                 return;
 
