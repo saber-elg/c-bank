@@ -197,18 +197,17 @@ int forgot_password() {
     yellow();
     printf("\n******************* Forgot Password ********************\n\n\n");
     color_reset();
-    printf("   Account number      :    ");
+    printf("         Account number      :    ");
     scanf("%d",&account_number);
     client=get_client_by_account(account_number);
-
+    char* answer = (char*)malloc(SEC_ANSWER_LENGHT*sizeof(char));
     for (int i = 0; i < client_file_length(); i++) {
         fread(client, sizeof(Client), 1, client_file);
         if (account_number == client->account_number) 
         {
-            char* answer = (char*)malloc(SEC_ANSWER_LENGHT*sizeof(char));
             printf("\n%s\n",client->security.question);
-            getch();
             printf("   Answer    :  ");
+            getch();
             fgets_no_newline_return(answer,SEC_ANSWER_LENGHT);
             if (strcmp(answer, client->security.answer) == 0) 
             {
@@ -294,7 +293,7 @@ int make_transfer(Client *sender) {
         processing ();
         system("cls");
         blue();
-        printf("Transfer of %.2f successfully completed to %s %s.",transfer_amount,receiver->first_name,receiver->last_name);
+        printf("Transfer of %.2f $ successfully completed to %s %s.",transfer_amount,receiver->first_name,receiver->last_name);
         color_reset();
         getch();
         return(1);
@@ -336,7 +335,7 @@ int make_deposit(Client *client) {
         processing ();
         system("cls");
         blue();
-        printf("Deposit of %.2f successfully completed.\n", deposit_amount);
+        printf("Deposit of %.2f $ successfully completed.\n", deposit_amount);
         color_reset();
         client->balance += deposit_amount;
         free(temp);
@@ -383,7 +382,7 @@ int make_withdrawal(Client *client) {
             processing ();
             system("cls");
             blue();
-            printf("Withdrawal of %.2f successfully completed.\n", withdrawal_amount);
+            printf("Withdrawal of %.2f $ successfully completed.\n", withdrawal_amount);
             color_reset();
             client->balance -= withdrawal_amount;
             free(temp);
@@ -434,7 +433,7 @@ void check_account_creation_status(){
                 if (strcmp(password,user->password) == 0 )
                 {
                     green();
-                    printf("Your request is realised! Press any key to display your profile\n");
+                    printf("\n\nYour request is realised! Press any key to display your profile\n");
                     color_reset();
                     getch();
                     system("cls");
@@ -529,6 +528,7 @@ void client_login_page(){
             case '4':// Forgot password
                 if (forgot_password()==1)
                 {
+                    getch();
                     blue();
                     printf("\nThe password has been succesfully changed.");
                     color_reset();
@@ -608,7 +608,7 @@ void client_main_page(Client *client){
                 color_reset();
                 printf("    Account Number       :   %d\n",client->account_number);
                 printf("    Account Holder       :   %s %s\n",client->first_name,client->last_name);
-                printf("    Your account balance :   %.2f\n", client->balance);
+                printf("    Your account balance :   %.2f $\n", client->balance);
                 yellow();
                 printf("\n\n*************************************************\n\n");
                 color_reset();

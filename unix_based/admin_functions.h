@@ -155,7 +155,9 @@ void find_client_option()
         printf("\t\t2. CIN\n");
         printf("\t\t3. Email\n\n");
         printf("0. Return\n\n");
+        yellow();
         printf("***********************************************************\n\n");
+        color_reset();
         choice = unix_getch();
         system("clear");
         switch (choice)

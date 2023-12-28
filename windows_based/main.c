@@ -9,7 +9,6 @@
 #include "side_functions.h"
 #include <string.h>
 
-
 int main()
 {  
     admin_or_client();

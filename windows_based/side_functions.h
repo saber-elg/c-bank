@@ -114,8 +114,8 @@ int get_city_id(){
         printf("\t 6.  Houston                                             \n");
         printf("\t 7.  Dallas                                              \n");
         printf("\t 8.  Miami                                               \n");
-        printf("\t 9.  Phoenix                                             \n\n");
-        printf(" ----------------------------------------------------------\n");
+        printf("\t 9.  Phoenix                                           \n\n");
+        printf(" -------------------------------------------------------------\n");
         char choice = getch();
         switch (choice)
         {

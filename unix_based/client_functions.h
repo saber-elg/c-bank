@@ -297,7 +297,7 @@ int make_transfer(Client *sender) {
         processing();
         system("clear");
         blue();
-        printf("Transfer of %.2f successfully completed to %s %s.",transfer_amount,receiver->first_name,receiver->last_name);
+        printf("Transfer of %.2f $ successfully completed to %s %s.",transfer_amount,receiver->first_name,receiver->last_name);
         color_reset();
         unix_getch();
         return(1);
@@ -339,7 +339,7 @@ int make_deposit(Client *client) {
         processing();
         system("clear");
         blue();
-        printf("Deposit of %.2f successfully completed.\n", deposit_amount);
+        printf("Deposit of %.2f $ successfully completed.\n", deposit_amount);
         color_reset();
         client->balance += deposit_amount;
         free(temp);
@@ -386,7 +386,7 @@ int make_withdrawal(Client *client) {
             processing();
             system("clear");
             blue();
-            printf("Withdrawal of %.2f successfully completed.\n", withdrawal_amount);
+            printf("Withdrawal of %.2f $ successfully completed.\n", withdrawal_amount);
             color_reset();
             client->balance -= withdrawal_amount;
             free(temp);
@@ -612,7 +612,7 @@ void client_main_page(Client *client){
                 color_reset();
                 printf("      Account Number       :   %d\n\n",client->account_number);
                 printf("      Account Holder       :   %s %s\n\n",client->first_name,client->last_name);
-                printf("      Your account balance :   %.2f\n", client->balance);
+                printf("      Your account balance :   %.2f $\n", client->balance);
                 yellow();
                 printf("\n\n*******************************************************\n\n");
                 color_reset();

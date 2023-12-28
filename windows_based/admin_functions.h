@@ -155,7 +155,10 @@ void find_client_option()
         printf("\t\t2. CIN\n");
         printf("\t\t3. Email\n\n");
         printf("0. Return\n\n");
-        printf("***********************************************************\n\n");        choice = getch();
+        yellow();
+        printf("***********************************************************\n\n");
+        color_reset();
+        choice = getch();
         system("cls");
         switch (choice)
         {
@@ -206,7 +209,7 @@ int update_account(int account_number)
 {
     Client* user = (Client*)malloc(sizeof(Client));
     user = get_client_by_account(account_number);
-    system("clear");
+    system("cls");
     if(user == NULL)
     { 
         red();
@@ -379,7 +382,7 @@ void admin_main_page()
                 break;
 
             case '4':// Disable and enable client
-                system("clear"); 
+                system("cls"); 
                 disable_or_enable_account();
                 getch();
                 break;
@@ -391,7 +394,7 @@ void admin_main_page()
                 color_reset();
                 fflush(stdout);
                 Sleep(2000);
-                system("clear");
+                system("cls");
                 return;
 
             default:
