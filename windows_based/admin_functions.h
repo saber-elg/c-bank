@@ -205,7 +205,7 @@ void find_client_option()
 }
 
 // returns 1 is the client is updated else it returns 0
-int update_account(int account_number)
+intupdate_account(int account_number)
 {
     Client* user = (Client*)malloc(sizeof(Client));
     user = get_client_by_account(account_number);
@@ -224,13 +224,16 @@ int update_account(int account_number)
         color_reset();
         Client* update=(Client*)malloc(sizeof(Client));
         update = user;
-        printf("   First Name       :    ");
+        fflush(stdout);
+        int c;
+        while ((c=getchar() != '\n') && (c != EOF));
+        printf("  First Name       :    ");
         fgets_no_newline_return(update->first_name,FIRST_NAME_LENGHT);
-        printf("   Last Name        :    ");
+        printf("  Last Name        :    ");
         fgets_no_newline_return(update->last_name,LAST_NAME_LENGHT);
-        printf("   CIN              :    ");
+        printf("  CIN              :    ");
         fgets_no_newline_return(update->CIN, MAX_CIN_LENGHT);
-        printf("   Email            :   ");
+        printf("  Email            :   ");
         fgets_no_newline_return(update->email, MAX_EMAIL_LENGHT);
         strcpy(update->password,create_num_password());
         system("cls");
@@ -377,7 +380,6 @@ void admin_main_page()
                 color_reset();
                 printf("   Enter the account number  :   ");
                 scanf("%d",&account_number);
-                getch();
                 update_account(account_number);
                 break;
 

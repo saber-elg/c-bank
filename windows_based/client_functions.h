@@ -207,11 +207,13 @@ int forgot_password() {
         {
             printf("\n%s\n",client->security.question);
             printf("   Answer    :  ");
-            getch();
+            fflush(stdout);
+            int c;
+            while ((c=getchar()!='\n') && c!=EOF);
             fgets_no_newline_return(answer,SEC_ANSWER_LENGHT);
             if (strcmp(answer, client->security.answer) == 0) 
             {
-                // valid answer
+                // Valid answer
                 system("cls");
                 yellow();
                 printf("\n***************** Reset Password ******************\n\n\n");
