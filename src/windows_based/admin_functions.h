@@ -205,7 +205,7 @@ void find_client_option()
 }
 
 // returns 1 is the client is updated else it returns 0
-intupdate_account(int account_number)
+int update_account(int account_number)
 {
     Client* user = (Client*)malloc(sizeof(Client));
     user = get_client_by_account(account_number);
